@@ -1,0 +1,2 @@
+include ':party_building'
+rootProject.name = "PartyBuilding"
