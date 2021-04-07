@@ -3,6 +3,8 @@ package com.news.partybuilding;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -85,5 +87,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
   @Override
   protected boolean isSupportLoad() {
     return true;
+  }
+
+  // 两秒内连续按两下就退出APP-当前是否已经按了第一下
+  boolean doubleBackToExitPressedOnce = false;
+
+  @Override
+  public void onBackPressed() {
+    if (doubleBackToExitPressedOnce) {
+      //super.onBackPressed();
+      // 这里设置一下 退出app时再次点击 不会出现启动页
+      Intent intent = new Intent(Intent.ACTION_MAIN);
+      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      intent.addCategory(Intent.CATEGORY_HOME);
+      startActivity(intent);
+    }
+    this.doubleBackToExitPressedOnce = true;
+    Toast.makeText(this, R.string.exit_the_program, Toast.LENGTH_SHORT).show();
+    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
   }
 }

@@ -13,16 +13,44 @@
   <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMainColor"
     tools:context=".ui.splash.SplashActivity">
 
-    <com.airbnb.lottie.LottieAnimationView
-      android:id="@+id/animationView"
-      android:layout_width="300dp"
-      android:layout_height="300dp"
-      app:lottie_rawRes="@raw/travel"
-      android:layout_gravity="center"
-      app:lottie_autoPlay="true"
-      app:lottie_loop="true"/>
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--      android:id="@+id/animationView"-->
+<!--      android:layout_width="300dp"-->
+<!--      android:layout_height="300dp"-->
+<!--      app:lottie_rawRes="@raw/travel"-->
+<!--      android:layout_gravity="center"-->
+<!--      app:lottie_autoPlay="true"-->
+<!--      app:lottie_loop="true"/>-->
+
+    <LinearLayout
+      android:id="@+id/party_building_top_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_party_building"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="top|center"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:textSize="30sp"/>
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_party_building_pinyin"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="top|center"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:textSize="17sp"/>
+    </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
       android:id="@+id/view_pager"
@@ -47,6 +75,16 @@
       android:layout_marginBottom="68dp"
       />
 
+    <TextView
+      android:id="@+id/party_building_bottom_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/splash_bottom_text"
+      android:textColor="@color/colorWhite"
+      android:layout_gravity="bottom|center"
+      android:gravity="center"
+      android:layout_marginBottom="70dp"
+      android:textSize="18sp"/>
 
     <LinearLayout
       android:orientation="horizontal"

@@ -1,6 +1,9 @@
 <resources>
+  <string name="exit_the_program">再次点击退出程序</string>
   <string name="app_name">党建头条</string>
   <string name="load_error">加载失败</string>
   <string name="no_network">暂无网络,点击重试</string>
-  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="splash_party_building">党建头条</string>
+  <string name="splash_party_building_pinyin">Dan jian tou tiao</string>
+  <string name="splash_bottom_text">党媒力量，建设真知</string>
 </resources>

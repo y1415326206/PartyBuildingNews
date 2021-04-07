@@ -19,7 +19,7 @@
     android:label="${APP_NAME}"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:theme="@style/Theme.WanAndroid"
+    android:theme="@style/Theme.PartyBuilding"
     tools:replace="android:label">
     <activity android:name="com.news.partybuilding.ui.splash.SplashActivity"
       android:theme="@style/launch_theme">

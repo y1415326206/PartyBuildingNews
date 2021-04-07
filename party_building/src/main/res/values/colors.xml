@@ -23,4 +23,6 @@
   <color name="colorFragmentBg">#FFFFFF</color>
   <color name="colorStatusBarBg">#0097FB</color>
   <color name="colorMenuIcon">#BD0803</color>
+
+  <color name="colorMainColor">#BD0803</color>
 </resources>

@@ -51,8 +51,10 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
       binding.viewPager.setVisibility(View.GONE);
       toFinish();
     } else {
+      binding.partyBuildingTopText.setVisibility(View.GONE);
+      binding.partyBuildingBottomText.setVisibility(View.GONE);
       binding.viewPager.setVisibility(View.VISIBLE);
-      binding.animationView.setVisibility(View.GONE);
+      //binding.animationView.setVisibility(View.GONE);
       setItemData();
       binding.viewPager.setAdapter(onboardAdapter);
       setIndicator();
