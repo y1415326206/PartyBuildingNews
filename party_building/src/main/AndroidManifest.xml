@@ -16,10 +16,11 @@
     android:name="com.news.partybuilding.base.BaseApplication"
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
+    android:label="${APP_NAME}"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:theme="@style/Theme.WanAndroid">
+    android:theme="@style/Theme.WanAndroid"
+    tools:replace="android:label">
     <activity android:name="com.news.partybuilding.ui.splash.SplashActivity"
       android:theme="@style/launch_theme">
       <intent-filter>

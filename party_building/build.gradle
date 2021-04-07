@@ -3,26 +3,62 @@ plugins {
 }
 
 android {
+    // App签名配置
+    signingConfigs {
+        release {
+            storeFile file('party.keystore')
+            keyAlias = 'party.keystore'
+            storePassword 'party-building'
+            keyPassword 'party-building'
+        }
+        debug {
+            storeFile file('party.keystore')
+            keyAlias = 'party.keystore'
+            storePassword 'party-building'
+            keyPassword 'party-building'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.partybuilding"
+        applicationId "com.news.partybuilding"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 100
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
+            manifestPlaceholders = [
+                    APP_NAME: "党建测试版"
+            ]
             buildConfigField 'Boolean', 'IS_DEBUG', 'true'
+            buildConfigField 'String', 'HOSTNAME', '"testcadae.top"'
+            buildConfigField 'String', 'BASE_URL', '"http://api.testzztpoint.top/mobile_api/v2/"'
+            buildConfigField 'String', 'WEBSOCKET_URL', '"wss://ws.cadex.top/ws/"'
+            buildConfigField 'String', 'SSL_CERT', '"test_zzt.cert"'
+            buildConfigField 'String', 'HOSTNAME_URL', '"api.testzztpoint.top"'
+            buildConfigField 'String', 'WEBSOCKET_SSL_CERT', '"websocket_cert.cert"'
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled false
+            manifestPlaceholders = [
+                    APP_NAME: "党建头条"
+            ]
             buildConfigField 'Boolean', 'IS_DEBUG', 'false'
+            buildConfigField 'String', 'HOSTNAME', '"guide.zztecology.com"'
+            buildConfigField 'String', 'BASE_URL', '"https://api.zztecology.com/mobile_api/v2/"'
+            buildConfigField 'String', 'WEBSOCKET_URL', '"wss://ws.cadex.top/ws/"'
+            buildConfigField 'String', 'HOSTNAME_URL', '"api.zztecology.com"'
+            buildConfigField 'String', 'SSL_CERT', '"zzt_top.cert"'
+            buildConfigField 'String', 'WEBSOCKET_SSL_CERT', '"websocket_cert.cert"'
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
