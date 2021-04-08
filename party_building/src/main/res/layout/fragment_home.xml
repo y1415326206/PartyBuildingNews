@@ -1,37 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
 
   <data>
 
     <variable
       name="viewModel"
       type="com.news.partybuilding.viewmodel.HomeViewModel" />
-    <import type="android.view.View"/>
+
+    <import type="android.view.View" />
   </data>
 
-  <FrameLayout
+  <LinearLayout
     android:id="@+id/home_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFragmentBg"
+    android:orientation="vertical"
     tools:context=".ui.fragment.HomeFragment">
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+    <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="?actionBarSize"
+      android:background="@color/colorMainColor"
+      android:orientation="horizontal">
 
-      <com.youth.banner.Banner
-        android:id="@+id/banner"
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="4"
+        android:background="@color/colorWhite"
+        android:drawableStart="@drawable/ic_star"
+        android:gravity="center"
+        android:hint="党建头条上线了"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp" />
+
+
+      <TextView
+        android:id="@+id/location"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="新疆"
+        android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+
+      <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:banner_indicator_normal_color="@color/colorAccent"
-        app:banner_indicator_selected_color="@color/colorWhite"/>
+        android:layout_height="48dp"
+        android:background="@color/colorTransparent"
+        app:tabIndicatorColor="@color/colorMainColor"
+        app:tabMode="scrollable"
+        app:tabRippleColor="@color/colorTransparent"
+        app:tabSelectedTextColor="@color/colorMainColor"
+        app:tabTextColor="@color/colorTextColor" />
+
+      <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" />
+
+    </LinearLayout>
+
+
+<!--    <com.youth.banner.Banner-->
+<!--      android:id="@+id/banner"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="200dp"-->
+<!--      app:banner_indicator_normal_color="@color/colorAccent"-->
+<!--      app:banner_indicator_selected_color="@color/colorWhite" />-->
 
 
 
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
-  </FrameLayout>
+  </LinearLayout>
 </layout>

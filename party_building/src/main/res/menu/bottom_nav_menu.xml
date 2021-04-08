@@ -10,20 +10,20 @@
     <item
         android:id="@+id/nav_public"
         android:icon="@drawable/ic_wechat"
-        android:title="公众号" />
+        android:title="视频" />
 
     <item
         android:id="@+id/nav_square"
         android:icon="@drawable/ic_system"
-        android:title="广场" />
+        android:title="融媒体" />
 
     <item
         android:id="@+id/nav_community"
         android:icon="@drawable/ic_navigation"
-        android:title="社区" />
-    <item
-        android:id="@+id/nav_sort"
-        android:icon="@drawable/ic_project"
-        android:title="分类" />
+        android:title="我的" />
+<!--    <item-->
+<!--        android:id="@+id/nav_sort"-->
+<!--        android:icon="@drawable/ic_project"-->
+<!--        android:title="分类" />-->
 
 </menu>

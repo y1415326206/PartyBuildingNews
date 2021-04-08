@@ -39,7 +39,7 @@ android {
             ]
             buildConfigField 'Boolean', 'IS_DEBUG', 'true'
             buildConfigField 'String', 'HOSTNAME', '"testcadae.top"'
-            buildConfigField 'String', 'BASE_URL', '"http://api.testzztpoint.top/mobile_api/v2/"'
+            buildConfigField 'String', 'BASE_URL', '"https://www.wanandroid.com/"'
             buildConfigField 'String', 'WEBSOCKET_URL', '"wss://ws.cadex.top/ws/"'
             buildConfigField 'String', 'SSL_CERT', '"test_zzt.cert"'
             buildConfigField 'String', 'HOSTNAME_URL', '"api.testzztpoint.top"'
@@ -53,13 +53,13 @@ android {
             ]
             buildConfigField 'Boolean', 'IS_DEBUG', 'false'
             buildConfigField 'String', 'HOSTNAME', '"guide.zztecology.com"'
-            buildConfigField 'String', 'BASE_URL', '"https://api.zztecology.com/mobile_api/v2/"'
+            buildConfigField 'String', 'BASE_URL', '"https://www.wanandroid.com/"'
             buildConfigField 'String', 'WEBSOCKET_URL', '"wss://ws.cadex.top/ws/"'
             buildConfigField 'String', 'HOSTNAME_URL', '"api.zztecology.com"'
             buildConfigField 'String', 'SSL_CERT', '"zzt_top.cert"'
             buildConfigField 'String', 'WEBSOCKET_SSL_CERT', '"websocket_cert.cert"'
             signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -85,71 +85,57 @@ dependencies {
     // navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
     implementation 'androidx.navigation:navigation-ui:2.3.2'
-
     // lifecycle
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "android.arch.lifecycle:common-java8:1.1.1"
-
     // retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
     // okHttp logger
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-
-    //    RxJava
-//    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-//    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
-
     // 引入RxBinding (我这里用作防止过快点击) 包含了rxjava
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
-
-    //    glide
+    // glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-
     //glide 高斯模糊
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
-
     //banner
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.0'
-
     //下拉刷新
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.0-alpha-1'      //核心必须依赖
     implementation 'com.scwang.smart:refresh-header-classics:2.0.0-alpha-1'
-
     //agentweb (WebView)
     implementation 'com.just.agentweb:agentweb:4.1.2'
-
     //hawk数据存储
     implementation "com.orhanobut:hawk:2.0.1"
-
     //PopTabView 条件筛选view
     implementation 'me.ccj.PopsTabView:poptabview_lib:1.5.0'
-
     // 流式布局
     implementation 'com.google.android:flexbox:2.0.1'
     //竖向TabLayout
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
-
     //图片/视频选择、预览、编辑与拍照
     implementation 'com.github.guoxiaoxing:phoenix:1.0.15'
     //选填 - 图片压缩，开启功能：Phoenix.with().enableCompress(true)，获取结果：MediaEntity.getCompressPath()
     implementation 'com.github.guoxiaoxing:phoenix-compress-picture:1.0.15'
-
     // toast
     implementation 'com.hjq:toast:8.8'
-
     // 屏幕适配方案
     implementation 'me.jessyan:autosize:1.2.1'
-
     // switch button
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
     // Lottie 动画
-    implementation 'com.airbnb.android:lottie:3.6.0'
+    //implementation 'com.airbnb.android:lottie:3.6.0'
 
     // banner
     implementation 'com.youth.banner:banner:2.1.0'
+    // org.apache.commons.codec.digest.DigestUtils(用于生成数字签名时的md5加密字符串)
+    implementation 'commons-codec:commons-codec:1.14'
+    // 高德定位
+    implementation 'com.amap.api:location:5.3.1'
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation 'com.hjq:xxpermissions:10.6'
 }

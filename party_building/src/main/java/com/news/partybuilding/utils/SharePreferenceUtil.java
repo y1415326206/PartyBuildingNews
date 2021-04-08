@@ -80,6 +80,13 @@ public class SharePreferenceUtil {
   }
 
   /**
+   * 是否登录
+   */
+  public static boolean isLogin() {
+    return getBoolean("is_login", false);
+  }
+
+  /**
    * 移除某个key值已经对应的值
    *
    * @param key

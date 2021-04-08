@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import com.news.partybuilding.R;
 import com.news.partybuilding.manager.MyActivityManager;
+import com.news.partybuilding.network.Http;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
@@ -41,6 +42,7 @@ public class BaseApplication extends Application {
   public void onCreate() {
     super.onCreate();
     context = this;
+    // 初始化一些工具
     init();
     initActivityManager();
     setCurrentTheme();
@@ -49,6 +51,8 @@ public class BaseApplication extends Application {
   private void init() {
     // 在 Application 中初始化 toast
     ToastUtils.init(this);
+    // 初始化OkHttpClient
+    Http.initOkHttpClient();
   }
 
   private void setCurrentTheme(){
@@ -103,7 +107,7 @@ public class BaseApplication extends Application {
   static {
     //设置全局的Header构建器
     SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
-      layout.setPrimaryColorsId(R.color.colorMainColor, R.color.colorWhite);//全局设置主题颜色
+      layout.setPrimaryColorsId(R.color.colorWhite, R.color.colorMainColor);//全局设置主题颜色
       return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
     });
     //设置全局的Footer构建器

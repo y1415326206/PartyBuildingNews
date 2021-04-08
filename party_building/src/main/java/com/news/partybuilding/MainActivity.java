@@ -13,11 +13,17 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
 import com.news.partybuilding.base.BaseActivity;
 import com.news.partybuilding.databinding.ActivityMainBinding;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.MainViewModel;
 import com.suke.widget.SwitchButton;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
@@ -39,8 +45,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
   @Override
   protected void init() {
+    // 初始化底部导航栏和fragment
     initFragment();
-    initUserDada();
   }
 
   private void initFragment() {
@@ -50,23 +56,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     NavigationUI.setupWithNavController(binding.navViewBottom, navController);
   }
 
+
   // 初始化侧边栏点击事件
   private void initUserDada() {
-    SwitchButton switchButton = binding.navView.getHeaderView(0).findViewById(R.id.switch_button);
-    int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-    switchButton.setChecked(mode == Configuration.UI_MODE_NIGHT_YES);
-    switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-        if (isChecked) {
-          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-          SharePreferenceUtil.setParam("is_set_night_theme",true);
-        } else {
-          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-          SharePreferenceUtil.setParam("is_set_night_theme",false);
-        }
-      }
-    });
+//    SwitchButton switchButton = binding.navView.getHeaderView(0).findViewById(R.id.switch_button);
+//    int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+//    switchButton.setChecked(mode == Configuration.UI_MODE_NIGHT_YES);
+//    switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+//      @Override
+//      public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+//        if (isChecked) {
+//          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//          SharePreferenceUtil.setParam("is_set_night_theme",true);
+//        } else {
+//          AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//          SharePreferenceUtil.setParam("is_set_night_theme",false);
+//        }
+//      }
+//    });
   }
   // 在AndroidManifest.xml 中加入 android:configChanges="uiMode" 当主题改变是不会重启Activity
   // AppCompatDelegate.setDefaultNightMode()这个方法会调用recreate()方法重启当前的activity 但是会有闪屏

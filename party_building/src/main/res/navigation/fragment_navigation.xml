@@ -14,27 +14,27 @@
     <fragment
         android:id="@+id/nav_public"
         android:name="com.news.partybuilding.ui.fragment.PublicFragment"
-        android:label="公众号"
+        android:label="视频"
         tools:layout="@layout/fragment_public" />
 
 
     <fragment
         android:id="@+id/nav_square"
         android:name="com.news.partybuilding.ui.fragment.SquareFragment"
-        android:label="广场"
+        android:label="融媒体"
         tools:layout="@layout/fragment_square" />
 
     <fragment
         android:id="@+id/nav_community"
         android:name="com.news.partybuilding.ui.fragment.CommunityFragment"
-        android:label="社区"
+        android:label="我的"
         tools:layout="@layout/fragment_community" />
 
-    <fragment
-        android:id="@+id/nav_sort"
-        android:name="com.news.partybuilding.ui.fragment.SortFragment"
-        android:label="分类"
-        tools:layout="@layout/fragment_sort" />
+<!--    <fragment-->
+<!--        android:id="@+id/nav_sort"-->
+<!--        android:name="com.news.partybuilding.ui.fragment.SortFragment"-->
+<!--        android:label="分类"-->
+<!--        tools:layout="@layout/fragment_sort" />-->
 
 <!--    <fragment-->
 <!--        android:id="@+id/nav_about"-->
