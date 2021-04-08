@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.news.partybuilding.R;
 import com.news.partybuilding.adapter.ImageAdapter;
 import com.news.partybuilding.base.BaseFragment;
+import com.news.partybuilding.config.LoadState;
 import com.news.partybuilding.databinding.FragmentSimpleCardBinding;
 import com.news.partybuilding.model.HomeBanner;
 import com.news.partybuilding.response.HomeBannerResponse;

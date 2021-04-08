@@ -23,6 +23,7 @@ import com.news.partybuilding.databinding.ViewLoadingBinding;
 import com.news.partybuilding.databinding.ViewNoDataBinding;
 import com.news.partybuilding.databinding.ViewNoNetworkBinding;
 import com.news.partybuilding.manager.MyActivityManager;
+import com.news.partybuilding.utils.LogUtils;
 
 
 public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseViewModel>
@@ -144,6 +145,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
 
   private void removeLoadView() {
     int childCount = mFragmentBaseBinding.flContentContainer.getChildCount();
+    LogUtils.i("childCount==============>" , childCount + "");
     if (childCount > 1) {
       mFragmentBaseBinding.flContentContainer.removeViews(1, childCount - 1);
     }

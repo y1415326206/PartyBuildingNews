@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -19,6 +20,7 @@ import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.news.partybuilding.base.BaseActivity;
 import com.news.partybuilding.databinding.ActivityMainBinding;
+import com.news.partybuilding.utils.LogUtils;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.MainViewModel;
 import com.suke.widget.SwitchButton;

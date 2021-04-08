@@ -1,19 +1,16 @@
 package com.news.partybuilding.ui.fragment;
 
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -31,9 +28,11 @@ import com.hjq.toast.ToastUtils;
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
 import com.news.partybuilding.config.Constants;
+import com.news.partybuilding.config.LoadState;
 import com.news.partybuilding.databinding.FragmentHomeBinding;
 import com.news.partybuilding.databinding.LayoutSearchBottomSheetBinding;
 import com.news.partybuilding.utils.LogUtils;
+import com.news.partybuilding.utils.NetWorkUtils;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.HomeViewModel;
 
@@ -43,7 +42,6 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
 
-  private final ArrayList<Fragment> mFragments = new ArrayList<>();
   private final String[] mTitles = {"热门", "iOS", "Android", "前端", "后端", "设计", "工具资源"};
   private TabLayoutMediator mediator;
   private AMapLocationClient mLocationClient;
@@ -75,7 +73,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   @Override
   protected void init() {
     // 初始化tabLayout
-    initTabLayout();
+    if (NetWorkUtils.isConnected()){
+      initTabLayout();
+    }else {
+      mViewModel.loadState.postValue(LoadState.NO_NETWORK);
+    }
+
     // 初始化高德定位
     initGaoDeLocation();
     // 获取权限
