@@ -22,7 +22,8 @@
   <color name="colorBottomNavigationBg">#FFFFFF</color>
   <color name="colorFragmentBg">#FFFFFF</color>
   <color name="colorStatusBarBg">#0097FB</color>
-  <color name="colorMenuIcon">#BD0803</color>
-
-  <color name="colorMainColor">#BD0803</color>
+  <color name="colorMenuIcon">#E02020</color>
+  <color name="colorSelectGray">#DDDDDD</color>
+  <color name="colorMainColor">#E02020</color>
+  <color name="colorTextMainGray">#999999</color>
 </resources>

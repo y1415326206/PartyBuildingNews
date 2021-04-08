@@ -1,6 +1,8 @@
 package com.news.partybuilding.ui.fragment;
 
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +89,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
     // 给城市赋值
     setDataToCities();
-
+    // 设置搜索按钮大小
+    setSearchIconBounds();
     mDataBinding.location.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -96,11 +99,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     });
   }
 
-
   @Override
   public void onResume() {
     super.onResume();
     startLocation();
+  }
+
+  private void setSearchIconBounds(){
+    @SuppressLint("UseCompatLoadingForDrawables")
+    Drawable drawable = getResources().getDrawable(R.drawable.icon_search);
+    // 设置图片的大小
+    drawable.setBounds(0, 0, 70, 70);
+    // 设置图片的位置，左、上、右、下
+    mDataBinding.searchText.setCompoundDrawables(drawable, null, null, null);
   }
 
 

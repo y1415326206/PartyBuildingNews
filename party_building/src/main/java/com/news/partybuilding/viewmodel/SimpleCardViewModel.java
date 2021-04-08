@@ -14,6 +14,7 @@ import com.news.partybuilding.utils.NetWorkUtils;
 public class SimpleCardViewModel extends BaseViewModel {
   public MutableLiveData<HomeBannerResponse> bannerResponse = new MutableLiveData<>();
 
+
   // 获取首页轮播图
   public void getHomeBannerData() {
     if (NetWorkUtils.isConnected()){
@@ -41,6 +42,9 @@ public class SimpleCardViewModel extends BaseViewModel {
       loadState.postValue(LoadState.NO_NETWORK);
     }
 
-
   }
+
+
+
+
 }

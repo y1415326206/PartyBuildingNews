@@ -4,15 +4,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
-import com.news.partybuilding.databinding.FragmentCommunityBinding;
+import com.news.partybuilding.databinding.FragmentMineBinding;
 import com.news.partybuilding.viewmodel.CommunityViewModel;
 
 
-public class CommunityFragment extends BaseFragment<FragmentCommunityBinding, CommunityViewModel> {
+public class MineFragment extends BaseFragment<FragmentMineBinding, CommunityViewModel> {
 
   @Override
   protected int getLayoutResId() {
-    return R.layout.fragment_community;
+    return R.layout.fragment_mine;
   }
 
   @Override

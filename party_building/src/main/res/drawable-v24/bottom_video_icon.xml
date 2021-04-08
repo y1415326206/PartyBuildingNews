@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- 选中时图片-->
+  <item android:drawable="@drawable/bottom_video_select_icon" android:state_checked="true" tools:ignore="ResourceCycle" />
+  <!-- 未选中时 图片 -->
+  <item android:drawable="@drawable/bottom_video_normal_icon" android:state_checkable="false" />
+</selector>

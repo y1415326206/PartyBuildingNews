@@ -9,12 +9,13 @@
   <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.PublicFragment">
+    tools:context=".ui.fragment.MineFragment">
+
 
     <TextView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="公众号" />
+      android:text="我的" />
 
   </FrameLayout>
 </layout>

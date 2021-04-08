@@ -9,13 +9,12 @@
   <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.SquareFragment">
-
+    tools:context=".ui.fragment.VideoFragment">
 
     <TextView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="广场" />
+      android:text="视频" />
 
   </FrameLayout>
 </layout>

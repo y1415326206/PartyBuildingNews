@@ -4,16 +4,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
-import com.news.partybuilding.databinding.FragmentSquareBinding;
+import com.news.partybuilding.databinding.FragmentMediaBinding;
 import com.news.partybuilding.viewmodel.SquareViewModel;
 
 
-public class SquareFragment extends BaseFragment<FragmentSquareBinding, SquareViewModel> {
+public class MediaFragment extends BaseFragment<FragmentMediaBinding, SquareViewModel> {
 
 
   @Override
   protected int getLayoutResId() {
-    return R.layout.fragment_square;
+    return R.layout.fragment_media;
   }
 
   @Override

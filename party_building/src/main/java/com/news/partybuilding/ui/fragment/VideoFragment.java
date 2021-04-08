@@ -4,17 +4,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
-import com.news.partybuilding.config.LoadState;
-import com.news.partybuilding.databinding.FragmentPublicBinding;
-import com.news.partybuilding.utils.NetWorkUtils;
+import com.news.partybuilding.databinding.FragmentVideoBinding;
 import com.news.partybuilding.viewmodel.PublicViewModel;
 
-public class PublicFragment extends BaseFragment<FragmentPublicBinding, PublicViewModel> {
+public class VideoFragment extends BaseFragment<FragmentVideoBinding, PublicViewModel> {
 
 
   @Override
   protected int getLayoutResId() {
-    return R.layout.fragment_public;
+    return R.layout.fragment_video;
   }
 
   @Override

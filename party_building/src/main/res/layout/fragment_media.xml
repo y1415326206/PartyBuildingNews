@@ -9,13 +9,13 @@
   <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.CommunityFragment">
+    tools:context=".ui.fragment.MediaFragment">
 
 
     <TextView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="社区" />
+      android:text="融媒体" />
 
   </FrameLayout>
 </layout>

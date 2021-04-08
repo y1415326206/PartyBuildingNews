@@ -12,23 +12,23 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_public"
-        android:name="com.news.partybuilding.ui.fragment.PublicFragment"
+        android:id="@+id/nav_video"
+        android:name="com.news.partybuilding.ui.fragment.VideoFragment"
         android:label="视频"
-        tools:layout="@layout/fragment_public" />
+        tools:layout="@layout/fragment_video" />
 
 
     <fragment
-        android:id="@+id/nav_square"
-        android:name="com.news.partybuilding.ui.fragment.SquareFragment"
+        android:id="@+id/nav_media"
+        android:name="com.news.partybuilding.ui.fragment.MediaFragment"
         android:label="融媒体"
-        tools:layout="@layout/fragment_square" />
+        tools:layout="@layout/fragment_media" />
 
     <fragment
-        android:id="@+id/nav_community"
-        android:name="com.news.partybuilding.ui.fragment.CommunityFragment"
+        android:id="@+id/nav_mine"
+        android:name="com.news.partybuilding.ui.fragment.MineFragment"
         android:label="我的"
-        tools:layout="@layout/fragment_community" />
+        tools:layout="@layout/fragment_mine" />
 
 <!--    <fragment-->
 <!--        android:id="@+id/nav_sort"-->

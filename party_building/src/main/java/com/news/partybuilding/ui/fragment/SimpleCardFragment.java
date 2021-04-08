@@ -39,29 +39,29 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
 
   @Override
   protected void init() {
-   mDataBinding.cardTitleTv.setText(simpleText);
-   initBannerData();
+   //mDataBinding.cardTitleTv.setText(simpleText);
+   //initBannerData();
   }
 
 
-  private void initBannerData() {
-    // 获取首页banner数据
-    mViewModel.getHomeBannerData();
-    mViewModel.bannerResponse.observe(this, new Observer<HomeBannerResponse>() {
-
-      @Override
-      public void onChanged(HomeBannerResponse homeBannerResponse) {
-        mDataBinding.banner.setAdapter(new ImageAdapter(homeBannerResponse.getHomeBanners()), true)
-          .setPageTransformer(new RotateYTransformer())
-          .setIndicator(new RectangleIndicator(getContext()))
-          .setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(Object data, int position) {
-              HomeBanner homeBannerData = (HomeBanner)data;
-              LogUtils.i("==========", homeBannerData.getImagePath());
-            }
-          });
-      }
-    });
-  }
+//  private void initBannerData() {
+//    // 获取首页banner数据
+//    mViewModel.getHomeBannerData();
+//    mViewModel.bannerResponse.observe(this, new Observer<HomeBannerResponse>() {
+//
+//      @Override
+//      public void onChanged(HomeBannerResponse homeBannerResponse) {
+//        mDataBinding.banner.setAdapter(new ImageAdapter(homeBannerResponse.getHomeBanners()), true)
+//          .setPageTransformer(new RotateYTransformer())
+//          .setIndicator(new RectangleIndicator(getContext()))
+//          .setOnBannerListener(new OnBannerListener() {
+//            @Override
+//            public void OnBannerClick(Object data, int position) {
+//              HomeBanner homeBannerData = (HomeBanner)data;
+//              LogUtils.i("==========", homeBannerData.getImagePath());
+//            }
+//          });
+//      }
+//    });
+//  }
 }

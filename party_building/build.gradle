@@ -140,4 +140,8 @@ dependencies {
     implementation 'com.hjq:xxpermissions:10.6'
     // 城市选择库
     implementation project(path: ':cityselect')
+    // recycleView binding
+    implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:4.0.0'
+    // 多item布局
+    implementation 'com.github.chaychan:MultipleItemRvAdapter:1.0.4'
 }

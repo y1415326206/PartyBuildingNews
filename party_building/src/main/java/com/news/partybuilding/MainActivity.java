@@ -54,6 +54,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
   private void initFragment() {
     NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     assert navHostFragment != null;
+    binding.navViewBottom.setItemIconTintList(null);
     NavController navController = navHostFragment.getNavController();
     NavigationUI.setupWithNavController(binding.navViewBottom, navController);
   }
