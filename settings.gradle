@@ -1,2 +1,2 @@
-include ':party_building'
+include ':party_building', ':cityselect'
 rootProject.name = "PartyBuilding"

@@ -33,7 +33,7 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
+            //applicationIdSuffix ".debug"
             manifestPlaceholders = [
                     APP_NAME: "党建测试版"
             ]
@@ -59,7 +59,7 @@ android {
             buildConfigField 'String', 'SSL_CERT', '"zzt_top.cert"'
             buildConfigField 'String', 'WEBSOCKET_SSL_CERT', '"websocket_cert.cert"'
             signingConfig signingConfigs.release
-            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -138,4 +138,6 @@ dependencies {
     implementation 'com.amap.api:location:5.3.1'
     // 权限请求框架：https://github.com/getActivity/XXPermissions
     implementation 'com.hjq:xxpermissions:10.6'
+    // 城市选择库
+    implementation project(path: ':cityselect')
 }

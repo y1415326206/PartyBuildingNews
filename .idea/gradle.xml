@@ -11,6 +11,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/cityselect" />
             <option value="$PROJECT_DIR$/party_building" />
           </set>
         </option>

@@ -9,6 +9,7 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
+/cityselect/build
 /captures
 .externalNativeBuild
 .cxx

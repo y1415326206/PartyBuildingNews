@@ -1,13 +1,15 @@
 package com.news.partybuilding.ui.fragment;
 
 
-import android.util.Log;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -16,26 +18,24 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.cretin.tools.cityselect.callback.OnCitySelectListener;
+import com.cretin.tools.cityselect.model.CityModel;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.gson.Gson;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.ToastUtils;
 import com.news.partybuilding.R;
-import com.news.partybuilding.adapter.ImageAdapter;
 import com.news.partybuilding.base.BaseFragment;
 import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.databinding.FragmentHomeBinding;
-import com.news.partybuilding.model.HomeBanner;
-import com.news.partybuilding.response.HomeBannerResponse;
+import com.news.partybuilding.databinding.LayoutSearchBottomSheetBinding;
 import com.news.partybuilding.utils.LogUtils;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.HomeViewModel;
-import com.youth.banner.indicator.RectangleIndicator;
-import com.youth.banner.listener.OnBannerListener;
-import com.youth.banner.transformer.RotateYTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +48,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   private TabLayoutMediator mediator;
   private AMapLocationClient mLocationClient;
   private AMapLocationClientOption mLocationOption;
+  // 底部弹窗
+  private BottomSheetDialog dialog;
+  private LayoutSearchBottomSheetBinding bottomSheetBinding;
+  // 全部城市列表
+  private final List<CityModel> allCities = new ArrayList<>();
+  //设置热门城市列表
+  final List<CityModel> hotCities = new ArrayList<>();
 
   @Override
   protected int getLayoutResId() {
@@ -72,10 +79,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     // 初始化高德定位
     initGaoDeLocation();
     // 获取权限
-    if (!SharePreferenceUtil.getBoolean(Constants.IS_USER_ACCESS_FINE_LOCATION,false)){
+    if (!SharePreferenceUtil.getBoolean(Constants.IS_USER_ACCESS_FINE_LOCATION, false)) {
       requestPermission();
     }
+    // 给城市赋值
+    setDataToCities();
+
+    mDataBinding.location.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        showSearchDialog();
+      }
+    });
   }
+
 
   @Override
   public void onResume() {
@@ -83,6 +100,29 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     startLocation();
   }
 
+
+  /**
+   * 给城市赋值
+   */
+  private void setDataToCities() {
+    allCities.add(new CityModel("北京"));
+    allCities.add(new CityModel("伤害"));
+    allCities.add(new CityModel("广州"));
+    allCities.add(new CityModel("深圳"));
+    allCities.add(new CityModel("香港"));
+    allCities.add(new CityModel("澳门"));
+    allCities.add(new CityModel("新加坡"));
+    allCities.add(new CityModel("新疆"));
+    allCities.add(new CityModel("赫曼"));
+    allCities.add(new CityModel("马鞍山"));
+    hotCities.add(new CityModel("北京"));
+    hotCities.add(new CityModel("新疆"));
+  }
+
+
+  /**
+   * 初始化tabLayout和ViewPager2
+   */
   private void initTabLayout() {
     //禁用预加载
     mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
@@ -110,8 +150,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     mediator.attach();
   }
 
-
-  private void requestPermission(){
+  /**
+   * 请求定位权限
+   */
+  private void requestPermission() {
     XXPermissions.with(this)
       // 申请精确定位权限
       .permission(Permission.ACCESS_FINE_LOCATION)
@@ -131,7 +173,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // 如果是被永久拒绝就跳转到应用权限系统设置页面
             //XXPermissions.startPermissionActivity(getActivity(), permissions);
           } else {
-            SharePreferenceUtil.setParam(Constants.IS_USER_ACCESS_FINE_LOCATION,true);
+            SharePreferenceUtil.setParam(Constants.IS_USER_ACCESS_FINE_LOCATION, true);
             ToastUtils.show("获取权限失败");
           }
         }
@@ -159,7 +201,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
   }
 
-  private void startLocation(){
+  /**
+   * 开始定位
+   */
+  private void startLocation() {
     //启动定位
     mLocationClient.startLocation();
   }
@@ -194,7 +239,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
           LogUtils.i("获取当前室内定位的楼层", amapLocation.getFloor());
           LogUtils.i("获取GPS的当前状态", amapLocation.getGpsAccuracyStatus() + "");
         } else {
-         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+          //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
           LogUtils.e("HomeFragment==> 高德定位", "location Error, ErrCode:"
             + amapLocation.getErrorCode() + ", errInfo:"
             + amapLocation.getErrorInfo());
@@ -219,10 +264,86 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
   }
 
+  /**
+   * 销毁底部弹出框实例
+   */
+  private void destroyBottomSheetDialog() {
+    if (dialog != null) {
+      dialog.dismiss();
+    }
+  }
+
   @Override
   public void onDestroyView() {
     super.onDestroyView();
     destroyLocation();
+    destroyBottomSheetDialog();
+  }
+
+  /**
+   * 显示搜索城市底部弹出框
+   */
+  private void showSearchDialog() {
+    if (dialog == null) {
+      dialog = new BottomSheetDialog(getContext());
+      bottomSheetBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(getActivity()),
+        R.layout.layout_search_bottom_sheet,
+        getActivity().findViewById(R.id.episodesContainer),
+        false
+      );
+      dialog.setContentView(bottomSheetBinding.getRoot());
+      //bottomSheetBinding.textTitle.setText(String.format("Episodes | %s", "hello"));
+      //设置搜索框的文案提示
+      bottomSheetBinding.cityView.setSearchTips("搜索您关心的积分");
+      // 绑定数据
+      if (!allCities.isEmpty() && !hotCities.isEmpty()) {
+        bottomSheetBinding.cityView.bindData(allCities, hotCities, new CityModel(mDataBinding.location.getText().toString()));
+      } else if (hotCities.isEmpty() && !allCities.isEmpty()) {
+        bottomSheetBinding.cityView.bindData(allCities, null, new CityModel(mDataBinding.location.getText().toString()));
+      } else {
+        bottomSheetBinding.cityView.bindData(null, null, new CityModel(mDataBinding.location.getText().toString()));
+      }
+//      bottomSheetBinding.imageClose.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//          dialog.dismiss();
+//        }
+//      });
+    }
+    // ---option select start--- 可选参数 //
+    FrameLayout frameLayout = dialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+    if (frameLayout != null) {
+      // 获取FrameLayout的参数并设置全屏
+      ViewGroup.LayoutParams originLayoutParams = frameLayout.getLayoutParams();
+      originLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+      frameLayout.setLayoutParams(originLayoutParams);
+      BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(frameLayout);
+      // 设置bottomDialog显示的位置
+      bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+    // ---option select end--- //
+    dialog.show();
+
+    initCitySelectListener();
+  }
+
+  /**
+   * 设置城市选择之后的事件监听
+   */
+  private void initCitySelectListener() {
+
+    bottomSheetBinding.cityView.setOnCitySelectListener(new OnCitySelectListener() {
+      @Override
+      public void onCitySelect(CityModel cityModel) {
+
+      }
+
+      @Override
+      public void onSelectCancel() {
+        dialog.dismiss();
+      }
+    });
   }
 
 
