@@ -6,4 +6,6 @@
   <string name="splash_party_building">党建头条</string>
   <string name="splash_party_building_pinyin">Dan jian tou tiao</string>
   <string name="splash_bottom_text">党媒力量，建设真知</string>
+  <string name="resend_countdown">%1$ss 后获取</string>
+  <string name="resend_validation_code">获取验证码</string>
 </resources>

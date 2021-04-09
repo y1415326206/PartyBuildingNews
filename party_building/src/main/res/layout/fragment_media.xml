@@ -30,7 +30,7 @@
       android:gravity="center"
       android:text="该功能开发中"
       android:textColor="@color/colorTextHintGray"
-      android:background="@drawable/gray_half_border"
+      android:background="@drawable/bg_gray_half_border_empty"
       android:layout_gravity="center"
       android:layout_centerHorizontal="true"
       android:layout_above="@+id/waiting"

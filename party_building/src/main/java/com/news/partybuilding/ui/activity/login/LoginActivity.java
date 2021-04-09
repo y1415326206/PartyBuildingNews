@@ -1,21 +1,18 @@
 package com.news.partybuilding.ui.activity.login;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-
+import androidx.lifecycle.ViewModelProvider;
 import com.gyf.immersionbar.ImmersionBar;
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseActivity;
 import com.news.partybuilding.databinding.ActivityLoginBinding;
-import com.news.partybuilding.utils.LogUtils;
+import com.news.partybuilding.utils.UiUtils;
 import com.news.partybuilding.viewmodel.LoginViewModel;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements View.OnClickListener {
-
 
 
 
@@ -40,6 +37,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
   private void initListener(){
     binding.closeButton.setOnClickListener(this);
+    binding.requestCodeButton.setOnClickListener(this);
+    binding.login.setOnClickListener(this);
   }
 
   private void onEditTextChangeListener(){
@@ -51,13 +50,16 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // 当手机号和验证码都不为空时
         if (!binding.phoneNumberEdit.getText().toString().isEmpty() && !binding.codeEdit.getText().toString().isEmpty()){
           viewModel.isBothEditFull.postValue(true);
         }else {
           viewModel.isBothEditFull.postValue(false);
         }
-        // 如果EditText为空 设置isPhoneEditEmpty为false
-        viewModel.isPhoneEditEmpty.postValue(binding.phoneNumberEdit.getText().toString().isEmpty());
+        if (!binding.requestCodeButton.getText().toString().contains("s")){
+          // 如果EditText为空 设置isPhoneEditEmpty为true
+          viewModel.isPhoneEditEmpty.postValue(binding.phoneNumberEdit.getText().toString().isEmpty());
+        }
       }
 
       @Override
@@ -105,6 +107,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
   public void onClick(View v) {
     switch (v.getId()){
       case R.id.close_button:
+        finish();
+        break;
+      case R.id.request_code_button:
+        // 修改验证码
+        UiUtils.resendValidationCodeCommon(binding.requestCodeButton,binding.phoneNumberEdit,getApplicationContext());
+        break;
+      case R.id.login:
         finish();
         break;
     }
