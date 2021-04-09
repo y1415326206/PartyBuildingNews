@@ -27,7 +27,7 @@ public class VideoFragment extends BaseFragment<FragmentVideoBinding, PublicView
 
   @Override
   protected boolean isSupportLoad() {
-    return true;
+    return false;
   }
 
 }

@@ -1,7 +1,6 @@
 package com.news.partybuilding.ui.fragment;
 
 import androidx.lifecycle.ViewModelProvider;
-
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
 import com.news.partybuilding.databinding.FragmentMediaBinding;
@@ -18,7 +17,7 @@ public class MediaFragment extends BaseFragment<FragmentMediaBinding, SquareView
 
   @Override
   protected void initAndBindViewModel() {
-   mViewModel = new ViewModelProvider(this).get(SquareViewModel.class);
+    mViewModel = new ViewModelProvider(this).get(SquareViewModel.class);
   }
 
   @Override

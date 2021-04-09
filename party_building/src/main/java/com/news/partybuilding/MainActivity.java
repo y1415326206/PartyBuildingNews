@@ -5,27 +5,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-
-import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
 import com.news.partybuilding.base.BaseActivity;
 import com.news.partybuilding.databinding.ActivityMainBinding;
-import com.news.partybuilding.utils.LogUtils;
-import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.MainViewModel;
-import com.suke.widget.SwitchButton;
-
-import java.util.List;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
@@ -116,4 +103,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     Toast.makeText(this, R.string.exit_the_program, Toast.LENGTH_SHORT).show();
     new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
   }
+
+
 }
