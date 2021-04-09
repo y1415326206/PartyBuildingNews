@@ -25,5 +25,7 @@
   <color name="colorMenuIcon">#E02020</color>
   <color name="colorSelectGray">#DDDDDD</color>
   <color name="colorMainColor">#E02020</color>
-  <color name="colorTextMainGray">#999999</color>
+  <color name="colorTextHintGray">#999999</color>
+  <color name="colorEditTextViewGray">#EEEEEE</color>
+  <color name="colorGrayMainColor">#4DDB2323</color>
 </resources>

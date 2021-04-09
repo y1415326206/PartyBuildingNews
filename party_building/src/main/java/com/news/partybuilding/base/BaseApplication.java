@@ -5,9 +5,12 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatDelegate;
+
+import com.news.partybuilding.BuildConfig;
 import com.news.partybuilding.R;
 import com.news.partybuilding.manager.MyActivityManager;
 import com.news.partybuilding.network.Http;
@@ -17,6 +20,8 @@ import com.scwang.smart.refresh.footer.ClassicsFooter;
 
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 
 // 当您的应用及其引用的库包含的方法数超过 65536 时，您会遇到一个构建错误，指明您的应用已达到 Android 构建架构规定的引用限制
@@ -53,14 +58,39 @@ public class BaseApplication extends Application {
     ToastUtils.init(this);
     // 初始化OkHttpClient
     Http.initOkHttpClient();
+    // 初始化友盟
+    initUmeng();
   }
 
-  private void setCurrentTheme(){
+  /**
+   * 初始化友盟
+   */
+  private void initUmeng() {
+    //获取渠道号
+    //String channelName = AnalyticsConfig.getChannel(this);
+    /**
+     * 初始化common库
+     * 参数1:上下文，必须的参数，不能为空
+     * 参数2:友盟 app key
+     * 参数3:友盟 channel 渠道 表示用户从哪个地方安装的比如 YingYongBao  WanDouJia
+     * 参数4:设备类型，必须参数，传参数为UMConfigure.DEVICE_TYPE_PHONE则表示手机；
+     * 传参数为UMConfigure.DEVICE_TYPE_BOX则表示盒子；默认为手机
+     * 参数5:Push推送业务的secret，需要集成Push功能时必须传入Push的secret，否则传空
+     */
+    UMConfigure.init(this,"606e814518b72d2d244a5ed1","Umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
+    // 设置组件化的Log开关
+    // 参数: boolean 默认为false，如需查看LOG设置为true
+    UMConfigure.setLogEnabled(BuildConfig.IS_DEBUG);
+    // 选用AUTO页面采集模式
+    MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+  }
+
+  private void setCurrentTheme() {
     //根据app上次退出的状态来判断是否需要设置夜间模式,提前在SharedPreference中存了一个是否是夜间模式的boolean值
     boolean isNightMode = SharePreferenceUtil.getBoolean("is_set_night_theme", false);
     if (isNightMode) {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-    }else {
+    } else {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
   }

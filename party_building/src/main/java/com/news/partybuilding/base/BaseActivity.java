@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.news.partybuilding.R;
 import com.news.partybuilding.config.LoadState;
 import com.news.partybuilding.databinding.ActivityBaseBinding;
@@ -16,6 +17,7 @@ import com.news.partybuilding.databinding.ViewLoadingBinding;
 import com.news.partybuilding.databinding.ViewNoDataBinding;
 import com.news.partybuilding.databinding.ViewNoNetworkBinding;
 import com.news.partybuilding.utils.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
 

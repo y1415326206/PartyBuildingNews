@@ -26,3 +26,6 @@
 -keep class com.loc.**{*;}
 -keep class com.autonavi.aps.amapapi.model.**{*;}
 
+# 状态栏库的混淆规则
+-keep class com.gyf.immersionbar.* {*;}
+-dontwarn com.gyf.immersionbar.**

@@ -20,7 +20,7 @@ public final class LogUtils {
   /**
    * 通过改变该值来进行不同级别的Log打印
    */
-  public static int LOG_LEVEL = BuildConfig.DEBUG ? 6 : 0 ;
+  public static int LOG_LEVEL = BuildConfig.IS_DEBUG ? 6 : 0 ;
 
   public static void v(String tag, String msg) {
     if (LOG_LEVEL > VERBOSE) {

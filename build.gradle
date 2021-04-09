@@ -6,6 +6,8 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/jcenter/'}
         maven { url "https://oss.jfrog.org/libs-snapshot" }
+        // 友盟
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.1"
@@ -22,6 +24,8 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/google/' }
         maven { url 'https://maven.aliyun.com/repository/jcenter/'}
         maven { url "https://oss.jfrog.org/libs-snapshot" }
+        // 友盟
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 

@@ -18,7 +18,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="经济日报"
-      android:textColor="@color/colorTextMainGray"
+      android:textColor="@color/colorTextHintGray"
       android:textSize="12sp"
       />
 
@@ -28,7 +28,7 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="12dp"
       android:text="1020阅读"
-      android:textColor="@color/colorTextMainGray"
+      android:textColor="@color/colorTextHintGray"
       android:textSize="12sp"
       />
 
@@ -38,7 +38,7 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="12dp"
       android:text="5分钟前"
-      android:textColor="@color/colorTextMainGray"
+      android:textColor="@color/colorTextHintGray"
       android:textSize="12sp"
       />
   </LinearLayout>

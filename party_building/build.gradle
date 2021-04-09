@@ -81,6 +81,12 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // 下面各SDK根据宿主App是否使用相关业务按需引入。
+    // 友盟统计SDK
+    implementation fileTree(include:['*.jar'], dir:'libs')
+    implementation  'com.umeng.umsdk:common:9.3.8'// 必选
+    implementation  'com.umeng.umsdk:asms:1.2.2'// 必选
+    implementation  'com.umeng.umsdk:abtest:1.0.0'//可选（使用U-App中ABTest能力）
 
     // navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
@@ -144,4 +150,10 @@ dependencies {
     implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:4.0.0'
     // 多item布局
     implementation 'com.github.chaychan:MultipleItemRvAdapter:1.0.4'
+    // 用于修改状态栏
+    // 基础依赖包，必须要依赖
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    // fragment快速实现（可选）
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+
 }
