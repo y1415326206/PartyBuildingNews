@@ -309,7 +309,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
       dialog.setContentView(bottomSheetBinding.getRoot());
       //bottomSheetBinding.textTitle.setText(String.format("Episodes | %s", "hello"));
       //设置搜索框的文案提示
-      bottomSheetBinding.cityView.setSearchTips("搜索您关心的积分");
+      bottomSheetBinding.cityView.setSearchTips("请输入城市名称");
       // 绑定数据
       if (!allCities.isEmpty() && !hotCities.isEmpty()) {
         bottomSheetBinding.cityView.bindData(allCities, hotCities, new CityModel(mDataBinding.location.getText().toString()));

@@ -38,8 +38,9 @@ public class RightIndexView extends View {
         mPaint.setTextSize(AppUtils.dp2px(14));
         mPaint.setAntiAlias(true);
         //获取文字被选中的颜色
-//        selectedColor = ContextCompat.getColor(context, );
-        selectedColor = Color.parseColor("#999DA1");
+        // selectedColor = ContextCompat.getColor(context, );
+        // 设置右侧文字颜色
+        selectedColor = Color.parseColor("#222222");
     }
 
     @Override

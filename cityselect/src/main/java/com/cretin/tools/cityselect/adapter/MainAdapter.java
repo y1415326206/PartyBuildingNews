@@ -43,7 +43,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.BaseViewHolder
         //创建不同的 ViewHolder
         View view = null;
 
-        //根据viewtype来创建条目
+        //根据viewType来创建条目
         if (viewType == CityInfoModel.TYPE_NORMAL) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_layout_normal, parent, false);
             return new NormalHolder(view);
