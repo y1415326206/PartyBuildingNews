@@ -5,5 +5,4 @@ import com.news.partybuilding.base.BaseViewModel;
 public class MainViewModel extends BaseViewModel {
 
 
-
 }

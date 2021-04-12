@@ -3,7 +3,9 @@ package com.news.partybuilding.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.view.View;
+
 import androidx.lifecycle.MutableLiveData;
+
 import com.google.gson.Gson;
 import com.news.partybuilding.base.BaseViewModel;
 import com.news.partybuilding.config.LoadState;

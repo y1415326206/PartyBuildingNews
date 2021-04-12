@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.gyf.immersionbar.ImmersionBar;
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseActivity;
+import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.databinding.ActivityLoginBinding;
+import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.utils.UiUtils;
 import com.news.partybuilding.viewmodel.LoginViewModel;
 
@@ -114,6 +116,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         UiUtils.resendValidationCodeCommon(binding.requestCodeButton,binding.phoneNumberEdit,getApplicationContext());
         break;
       case R.id.login:
+        SharePreferenceUtil.setParam(Constants.IS_LOGIN, true);
         finish();
         break;
     }

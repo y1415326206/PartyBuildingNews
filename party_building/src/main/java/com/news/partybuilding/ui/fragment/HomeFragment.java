@@ -102,6 +102,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   @Override
   public void onResume() {
     super.onResume();
+    // 开始定位
     startLocation();
   }
 

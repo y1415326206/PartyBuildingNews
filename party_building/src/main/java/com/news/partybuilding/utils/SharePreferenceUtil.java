@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.news.partybuilding.base.BaseApplication;
+import com.news.partybuilding.config.Constants;
 
 import java.util.Map;
 
@@ -83,7 +84,7 @@ public class SharePreferenceUtil {
    * 是否登录
    */
   public static boolean isLogin() {
-    return getBoolean("is_login", false);
+    return getBoolean(Constants.IS_LOGIN, false);
   }
 
   /**
