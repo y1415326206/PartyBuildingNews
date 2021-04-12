@@ -12,7 +12,10 @@ import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.databinding.FragmentMineBinding;
 import com.news.partybuilding.ui.activity.aboutapp.AboutAppActivity;
 import com.news.partybuilding.ui.activity.login.LoginActivity;
+import com.news.partybuilding.ui.activity.mydownloads.MyDownloadsActivity;
 import com.news.partybuilding.ui.activity.myfavourites.MyFavouritesActivity;
+import com.news.partybuilding.ui.activity.mymessage.MyMessageActivity;
+import com.news.partybuilding.ui.activity.myrecords.MyRecordsActivity;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.MineViewModel;
 
@@ -82,10 +85,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         startActivityIfLogin(MyFavouritesActivity.class);
         break;
       case R.id.my_records:
+        startActivityIfLogin(MyRecordsActivity.class);
         break;
       case R.id.my_message:
+        startActivityIfLogin(MyMessageActivity.class);
         break;
       case R.id.my_downloads:
+        startActivity(new Intent(getActivity(), MyDownloadsActivity.class));
         break;
     }
   }
