@@ -28,16 +28,17 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.PartyBuilding"
     tools:replace="android:label">
+    <activity android:name=".ui.activity.webview.WebViewActivity"/>
     <activity android:name=".ui.activity.login.LoginActivity" />
     <activity
       android:name=".ui.splash.SplashActivity"
       android:theme="@style/launch_theme">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
+
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
-    </activity>
-    <!-- 高德定位配置 -->
+    </activity> <!-- 高德定位配置 -->
     <meta-data
       android:name="com.amap.api.v2.apikey"
       android:value="270993347ad37830b220609784e87b2b" /> <!-- 声明定位service -->

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <variable
+      name="listener"
+      type="com.news.partybuilding.listener.VideoOnClickListener" />
+
+    <variable
+      name="video"
+      type="com.news.partybuilding.model.Video" />
+
+  </data>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    android:onClick="@{()->listener.onVideoClick(video)}"
+    android:orientation="vertical">
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="194dp"
+      android:visibility="visible">
+
+      <ImageView
+        android:id="@+id/iv_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@color/colorSelectGray" />
+
+      <ImageView
+        android:id="@+id/iv_play"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/selector_play_video" />
+
+    </RelativeLayout>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="@{video.title}"
+      android:textColor="@color/colorTextColor"
+      android:textSize="15sp"
+      tools:text="我是标题，我是标题" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{video.videoViews}"
+        android:textColor="@color/colorTextHintGray"
+        tools:text="3.3万播放" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="@{video.time}"
+        android:textColor="@color/colorTextHintGray"
+        tools:text="2021-5-13" />
+    </LinearLayout>
+
+
+  </LinearLayout>
+</layout>
