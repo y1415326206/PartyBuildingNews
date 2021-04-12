@@ -28,4 +28,5 @@
   <color name="colorTextHintGray">#999999</color>
   <color name="colorEditTextViewGray">#EEEEEE</color>
   <color name="colorGrayMainColor">#4DDB2323</color>
+  <color name="colorAboutAppGray">#666666</color>
 </resources>

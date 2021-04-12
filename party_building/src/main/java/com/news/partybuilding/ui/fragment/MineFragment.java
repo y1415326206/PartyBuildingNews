@@ -10,6 +10,7 @@ import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
 import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.databinding.FragmentMineBinding;
+import com.news.partybuilding.ui.activity.aboutapp.AboutAppActivity;
 import com.news.partybuilding.ui.activity.login.LoginActivity;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.MineViewModel;
@@ -47,6 +48,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
   private void initListener() {
     mDataBinding.goLogin.setOnClickListener(this);
     mDataBinding.logout.setOnClickListener(this);
+    mDataBinding.aboutApp.setOnClickListener(this);
   }
 
 
@@ -67,6 +69,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         break;
       case R.id.logout:
         logout();
+        break;
+      case R.id.about_app:
+        startActivity(new Intent(getActivity(), AboutAppActivity.class));
         break;
     }
   }
