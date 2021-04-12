@@ -11,6 +11,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseActivity;
 import com.news.partybuilding.databinding.ActivityAboutAppBinding;
+import com.news.partybuilding.utils.UiUtils;
 import com.news.partybuilding.viewmodel.AboutAppViewModel;
 
 public class AboutAppActivity extends BaseActivity<ActivityAboutAppBinding, AboutAppViewModel> {
@@ -38,13 +39,7 @@ public class AboutAppActivity extends BaseActivity<ActivityAboutAppBinding, Abou
    * 设置状态栏颜色
    */
   private void setStatusBar(){
-    ImmersionBar.with(this)
-      .statusBarColor(R.color.colorWhite)     //状态栏颜色，不写默认透明色
-      .navigationBarColor(R.color.colorWhite)  //导航栏颜色，不写默认黑色;
-      .statusBarDarkFont(true)   //状态栏字体是深色，不写默认为亮色
-      .navigationBarDarkIcon(true) //导航栏图标是深色，不写默认为亮色
-      .fitsSystemWindows(true)
-      .init();
+    UiUtils.setStatusBar(this);
   }
 
 

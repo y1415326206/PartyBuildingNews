@@ -1,11 +1,13 @@
 package com.news.partybuilding.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.news.partybuilding.R;
 
 public class UiUtils {
@@ -38,5 +40,19 @@ public class UiUtils {
         }
       }
     }.start();
+  }
+
+
+  /**
+   * 设置状态栏颜色
+   */
+  public static void setStatusBar(Activity context){
+    ImmersionBar.with(context)
+      .statusBarColor(R.color.colorWhite)     //状态栏颜色，不写默认透明色
+      .navigationBarColor(R.color.colorWhite)  //导航栏颜色，不写默认黑色;
+      .statusBarDarkFont(true)   //状态栏字体是深色，不写默认为亮色
+      .navigationBarDarkIcon(true) //导航栏图标是深色，不写默认为亮色
+      .fitsSystemWindows(true)
+      .init();
   }
 }

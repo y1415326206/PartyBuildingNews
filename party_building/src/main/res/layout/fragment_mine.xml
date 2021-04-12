@@ -83,6 +83,7 @@
         android:background="@color/colorWhite">
 
         <LinearLayout
+          android:id="@+id/my_favourites"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:orientation="vertical"
@@ -105,6 +106,7 @@
 
         </LinearLayout>
         <LinearLayout
+          android:id="@+id/my_records"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:orientation="vertical"
@@ -127,6 +129,7 @@
 
         </LinearLayout>
         <LinearLayout
+          android:id="@+id/my_message"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:orientation="vertical"
@@ -149,6 +152,7 @@
 
         </LinearLayout>
         <LinearLayout
+          android:id="@+id/my_downloads"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:orientation="vertical"

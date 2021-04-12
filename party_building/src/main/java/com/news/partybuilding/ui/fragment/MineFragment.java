@@ -12,6 +12,7 @@ import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.databinding.FragmentMineBinding;
 import com.news.partybuilding.ui.activity.aboutapp.AboutAppActivity;
 import com.news.partybuilding.ui.activity.login.LoginActivity;
+import com.news.partybuilding.ui.activity.myfavourites.MyFavouritesActivity;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.MineViewModel;
 
@@ -49,6 +50,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     mDataBinding.goLogin.setOnClickListener(this);
     mDataBinding.logout.setOnClickListener(this);
     mDataBinding.aboutApp.setOnClickListener(this);
+    mDataBinding.myFavourites.setOnClickListener(this);
+    mDataBinding.myRecords.setOnClickListener(this);
+    mDataBinding.myMessage.setOnClickListener(this);
+    mDataBinding.myDownloads.setOnClickListener(this);
   }
 
 
@@ -73,6 +78,27 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
       case R.id.about_app:
         startActivity(new Intent(getActivity(), AboutAppActivity.class));
         break;
+      case R.id.my_favourites:
+        startActivityIfLogin(MyFavouritesActivity.class);
+        break;
+      case R.id.my_records:
+        break;
+      case R.id.my_message:
+        break;
+      case R.id.my_downloads:
+        break;
     }
   }
+
+  /**
+   * 根据是否登录进行跳转
+   */
+  private void startActivityIfLogin(Class<?> goClass) {
+    if (SharePreferenceUtil.isLogin()) {
+      startActivity(new Intent(getActivity(), goClass));
+    } else {
+      startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
+  }
+
 }

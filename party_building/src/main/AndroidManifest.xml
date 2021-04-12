@@ -28,7 +28,8 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.PartyBuilding"
     tools:replace="android:label">
-    <activity android:name=".ui.activity.aboutapp.AboutAppActivity"/>
+    <activity android:name=".ui.activity.myfavourites.MyFavouritesActivity"/>
+    <activity android:name=".ui.activity.aboutapp.AboutAppActivity" />
     <activity android:name=".ui.activity.webview.WebViewActivity" />
     <activity android:name=".ui.activity.login.LoginActivity" />
     <activity
