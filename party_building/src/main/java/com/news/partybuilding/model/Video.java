@@ -2,56 +2,58 @@ package com.news.partybuilding.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Video {
 
-  @SerializedName("video_url")
-  private String videoUrl;
-  @SerializedName("title")
-  private String title;
-  @SerializedName("video_views")
-  private String videoViews;
-  @SerializedName("time")
-  private String time;
-  @SerializedName("url")
-  private String url;
+  @SerializedName("current_page")
+  private int currentPage;
+  @SerializedName("total_page")
+  private int totalPage;
+  @SerializedName("total_num")
+  private int totalNum;
+  @SerializedName("page_size")
+  private int pageSize;
+  @SerializedName("articles")
+  private List<Article> articles;
 
-  public String getVideoUrl() {
-    return videoUrl;
+  public int getCurrentPage() {
+    return currentPage;
   }
 
-  public void setVideoUrl(String videoUrl) {
-    this.videoUrl = videoUrl;
+  public void setCurrentPage(int currentPage) {
+    this.currentPage = currentPage;
   }
 
-  public String getTitle() {
-    return title;
+  public int getTotalPage() {
+    return totalPage;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setTotalPage(int totalPage) {
+    this.totalPage = totalPage;
   }
 
-  public String getVideoViews() {
-    return videoViews;
+  public int getTotalNum() {
+    return totalNum;
   }
 
-  public void setVideoViews(String videoViews) {
-    this.videoViews = videoViews;
+  public void setTotalNum(int totalNum) {
+    this.totalNum = totalNum;
   }
 
-  public String getTime() {
-    return time;
+  public int getPageSize() {
+    return pageSize;
   }
 
-  public void setTime(String time) {
-    this.time = time;
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
   }
 
-  public String getUrl() {
-    return url;
+  public List<Article> getArticles() {
+    return articles;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
+  public void setArticles(List<Article> articles) {
+    this.articles = articles;
   }
 }

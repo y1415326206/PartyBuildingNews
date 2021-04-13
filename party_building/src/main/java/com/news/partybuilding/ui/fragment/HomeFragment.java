@@ -3,16 +3,20 @@ package com.news.partybuilding.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -33,6 +37,8 @@ import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.config.LoadState;
 import com.news.partybuilding.databinding.FragmentHomeBinding;
 import com.news.partybuilding.databinding.LayoutSearchBottomSheetBinding;
+import com.news.partybuilding.response.FirstLevelCategoriesResponse;
+import com.news.partybuilding.response.ProvincesCitiesResponse;
 import com.news.partybuilding.utils.LogUtils;
 import com.news.partybuilding.utils.NetWorkUtils;
 import com.news.partybuilding.utils.SharePreferenceUtil;
@@ -44,7 +50,8 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
 
-  private final String[] mTitles = {"热门", "iOS", "Android", "前端", "后端", "设计", "工具资源"};
+  private final ArrayList<String> mTitles = new ArrayList<>();
+  //private final String[] mTitles = {"1","2"};
   private TabLayoutMediator mediator;
   private AMapLocationClient mLocationClient;
   private AMapLocationClientOption mLocationOption;
@@ -63,7 +70,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
   @Override
   protected boolean isSupportLoad() {
-    return true;
+    return false;
   }
 
   @Override
@@ -74,13 +81,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
   @Override
   protected void init() {
+    // 请求省市数据
+    mViewModel.requestAllCities();
     // 初始化tabLayout
-    if (NetWorkUtils.isConnected()){
-      initTabLayout();
-    }else {
-      mViewModel.loadState.postValue(LoadState.NO_NETWORK);
-    }
-
+    initTabLayout();
     // 初始化高德定位
     initGaoDeLocation();
     // 获取权限
@@ -104,9 +108,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     super.onResume();
     // 开始定位
     startLocation();
+    // 请求首页一级栏目数据
+    mViewModel.requestFirstLevelArticleCategories();
   }
 
-  private void setSearchIconBounds(){
+  // 设置搜索框图标大小
+  private void setSearchIconBounds() {
     @SuppressLint("UseCompatLoadingForDrawables")
     Drawable drawable = getResources().getDrawable(R.drawable.icon_search);
     // 设置图片的大小
@@ -120,16 +127,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
    * 给城市赋值
    */
   private void setDataToCities() {
-    allCities.add(new CityModel("北京"));
-    allCities.add(new CityModel("伤害"));
-    allCities.add(new CityModel("广州"));
-    allCities.add(new CityModel("深圳"));
-    allCities.add(new CityModel("香港"));
-    allCities.add(new CityModel("澳门"));
-    allCities.add(new CityModel("新加坡"));
-    allCities.add(new CityModel("新疆"));
-    allCities.add(new CityModel("赫曼"));
-    allCities.add(new CityModel("马鞍山"));
+    mViewModel.provincesCitiesResponse.observe(this, new Observer<ProvincesCitiesResponse>() {
+      @Override
+      public void onChanged(ProvincesCitiesResponse provincesCitiesResponse) {
+        if (provincesCitiesResponse.getCitiesProvinces().size() > 0){
+          for (int i = 0; i<provincesCitiesResponse.getCitiesProvinces().size(); i++){
+            allCities.add(new CityModel(provincesCitiesResponse.getCitiesProvinces().get(i).getLabel()));
+          }
+        }
+      }
+    });
     hotCities.add(new CityModel("北京"));
     hotCities.add(new CityModel("新疆"));
   }
@@ -139,30 +146,45 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
    * 初始化tabLayout和ViewPager2
    */
   private void initTabLayout() {
-    //禁用预加载
-    mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-    //Adapter
-    mDataBinding.viewPager.setAdapter(new FragmentStateAdapter(this) {
-      @NonNull
+    // 给 mTitles赋值 用户显示tabLayout
+    mViewModel.firstLevelResponse.observe(this, new Observer<FirstLevelCategoriesResponse>() {
       @Override
-      public Fragment createFragment(int position) {
-        return SimpleCardFragment.getInstance(mTitles[position]);
-      }
+      public void onChanged(FirstLevelCategoriesResponse firstLevelCategoriesResponse) {
 
-      @Override
-      public int getItemCount() {
-        return mTitles.length;
+        int firstLevelSize = firstLevelCategoriesResponse.getFirstLevelCategoriesList().size();
+        if (firstLevelSize > 0) {
+          for (int i = 0; i < firstLevelSize; i++) {
+            mTitles.add(i, firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getName());
+          }
+        }
+
+        //禁用预加载
+        mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
+        //Adapter
+        mDataBinding.viewPager.setAdapter(new FragmentStateAdapter(HomeFragment.this) {
+          @NonNull
+          @Override
+          public Fragment createFragment(int position) {
+            //LogUtils.i("--------ddd------>", mTitles.get(position));
+            return SimpleCardFragment.getInstance(mTitles.get(position));
+          }
+
+          @Override
+          public int getItemCount() {
+            return mTitles.size();
+          }
+        });
+        mediator = new TabLayoutMediator(mDataBinding.tabs, mDataBinding.viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+          @Override
+          public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+            //这里可以自定义TabView
+            tab.setText(mTitles.get(position));
+          }
+        });
+        //要执行这一句才是真正将两者绑定起来
+        mediator.attach();
       }
     });
-    mediator = new TabLayoutMediator(mDataBinding.tabs, mDataBinding.viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-      @Override
-      public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-        //这里可以自定义TabView
-        tab.setText(mTitles[position]);
-      }
-    });
-    //要执行这一句才是真正将两者绑定起来
-    mediator.attach();
   }
 
   /**

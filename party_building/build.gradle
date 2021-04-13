@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId "com.news.partybuilding"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 100
         versionName "1.0.0"
@@ -39,7 +39,7 @@ android {
             ]
             buildConfigField 'Boolean', 'IS_DEBUG', 'true'
             buildConfigField 'String', 'HOSTNAME', '"testcadae.top"'
-            buildConfigField 'String', 'BASE_URL', '"https://www.wanandroid.com/"'
+            buildConfigField 'String', 'BASE_URL', '"http://djtt-test-api.sweetysoft.com/api/v2/djtt/"'
             buildConfigField 'String', 'WEBSOCKET_URL', '"wss://ws.cadex.top/ws/"'
             buildConfigField 'String', 'SSL_CERT', '"test_zzt.cert"'
             buildConfigField 'String', 'HOSTNAME_URL', '"api.testzztpoint.top"'
@@ -53,7 +53,7 @@ android {
             ]
             buildConfigField 'Boolean', 'IS_DEBUG', 'false'
             buildConfigField 'String', 'HOSTNAME', '"guide.zztecology.com"'
-            buildConfigField 'String', 'BASE_URL', '"https://www.wanandroid.com/"'
+            buildConfigField 'String', 'BASE_URL', '"http://djtt-test-api.sweetysoft.com/api/v2/djtt/"'
             buildConfigField 'String', 'WEBSOCKET_URL', '"wss://ws.cadex.top/ws/"'
             buildConfigField 'String', 'HOSTNAME_URL', '"api.zztecology.com"'
             buildConfigField 'String', 'SSL_CERT', '"zzt_top.cert"'
@@ -157,5 +157,7 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
     // 图片加载
     implementation 'com.squareup.picasso:picasso:2.71828'
+    // recycleView 复杂布局依赖
+    implementation 'com.drakeet.multitype:multitype:4.2.0'
 
 }

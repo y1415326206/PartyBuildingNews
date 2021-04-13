@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -81,6 +82,17 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding, SplashVi
         }
       });
     }
+
+    // 首次开启App时获取设备信息(型号与安卓系统版本)
+    // 如果未获取过设备信息(型号与安卓系统版本)，则采集设备信息：
+    String model = android.os.Build.MODEL;
+    String product = android.os.Build.PRODUCT;
+    if (model.length() > product.length()) {
+      SharePreferenceUtil.setParam("device_model", model);
+    } else {
+      SharePreferenceUtil.setParam("device_model", product);
+    }
+    SharePreferenceUtil.setParam("os_version", Build.VERSION.RELEASE);
   }
 
 

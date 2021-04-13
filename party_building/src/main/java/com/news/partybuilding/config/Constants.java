@@ -14,4 +14,6 @@ public final class Constants {
     public static final String IS_LOGIN = "is_login";
     // webView 链接
     public static final String WEB_VIEW_URL = "web_view_url";
+    // 网络访问成功的标识
+    public static final int SUCCESS_CODE = 20000;
 }

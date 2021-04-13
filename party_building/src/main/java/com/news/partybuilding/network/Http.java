@@ -62,7 +62,7 @@ public class Http {
       if (SharePreferenceUtil.isLogin()) {
         put("public_key", SharePreferenceUtil.getString("public_key", Constants.DEFAULT_STRING));
       }
-      put("os_version", SharePreferenceUtil.getString("os_version", Constants.DEFAULT_STRING));
+      //put("os_version", SharePreferenceUtil.getString("os_version", Constants.DEFAULT_STRING));
       put("device_type", SharePreferenceUtil.getString("device_model", Constants.DEFAULT_STRING));
       put("app_version", BuildConfig.VERSION_NAME);
       put("model", SharePreferenceUtil.getString("device_model", Constants.DEFAULT_STRING));
@@ -77,7 +77,7 @@ public class Http {
       params.put("public_key", SharePreferenceUtil.getString("public_key", Constants.DEFAULT_STRING));
     }
     params.put("os_type", "android");
-    params.put("os_version", SharePreferenceUtil.getString("os_version", Constants.DEFAULT_STRING));
+    //params.put("os_version", SharePreferenceUtil.getString("os_version", Constants.DEFAULT_STRING));
     params.put("device_type", SharePreferenceUtil.getString("device_model", Constants.DEFAULT_STRING));
     params.put("app_version", BuildConfig.VERSION_NAME);
     params.put("model", SharePreferenceUtil.getString("device_model", Constants.DEFAULT_STRING));
@@ -109,7 +109,7 @@ public class Http {
         @Override
         public void onFailure(Call call, IOException e) {
           callback.OnFailure(Log.getStackTraceString(e));
-          //Log.e(TAG, Log.getStackTraceString(e));
+          Log.e(TAG, Log.getStackTraceString(e));
         }
       });
     } catch (Exception e) {

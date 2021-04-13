@@ -1,8 +1,8 @@
 package com.news.partybuilding.listener;
 
-import com.news.partybuilding.model.Video;
+import com.news.partybuilding.model.Article;
 
 public interface VideoOnClickListener {
 
-  void onVideoClick(Video video);
+  void onVideoClick(Article article);
 }

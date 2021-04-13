@@ -19,7 +19,7 @@ public class SimpleCardViewModel extends BaseViewModel {
   public void getHomeBannerData() {
     if (NetWorkUtils.isConnected()){
       loadState.postValue(LoadState.LOADING);
-      new Http(Urls.HOME_BANNER).get(new Http.ResponseCallBack() {
+      new Http(Urls.HOME).get(new Http.ResponseCallBack() {
         @Override
         public void onResponse(String response) {
           LogUtils.i("SimpleCardViewModel", response);

@@ -11,6 +11,7 @@ import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
 import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.databinding.FragmentVideoBinding;
+import com.news.partybuilding.model.Article;
 import com.news.partybuilding.model.Video;
 import com.news.partybuilding.ui.activity.webview.WebViewActivity;
 import com.news.partybuilding.viewmodel.VideoViewModel;
@@ -32,8 +33,9 @@ public class VideoFragment extends BaseFragment<FragmentVideoBinding, VideoViewM
 
   @Override
   protected void init() {
-   setVideo();
-   videoOnclick();
+    // 请求视频列表
+    mViewModel.requestVideoList();
+    videoOnclick();
   }
 
   @Override
@@ -41,36 +43,13 @@ public class VideoFragment extends BaseFragment<FragmentVideoBinding, VideoViewM
     return false;
   }
 
-  private void setVideo() {
-    Video video = new Video();
-    video.setTitle("hhhhhhhh");
-    video.setVideoViews("33万次播放");
-    video.setTime("2023-3-30");
-    video.setUrl("https://www.baidu.com/");
 
-    Video video1 = new Video();
-    video1.setTitle("hhhhhhhh");
-    video1.setVideoViews("33万次播放");
-    video1.setTime("2023-3-30");
-    video1.setUrl("https://sina.cn/");
-
-    Video video2 = new Video();
-    video2.setTitle("hhhhhhhh");
-    video2.setVideoViews("33万次播放");
-    video2.setTime("2023-3-30");
-    video2.setUrl("https://www.qq.com/");
-
-    mViewModel.items.add(video);
-    mViewModel.items.add(video1);
-    mViewModel.items.add(video2);
-  }
-
-  private void videoOnclick(){
-    mViewModel.onClickVideo.observe(this, new Observer<Video>() {
+  private void videoOnclick() {
+    mViewModel.onClickVideo.observe(this, new Observer<Article>() {
       @Override
-      public void onChanged(Video video) {
+      public void onChanged(Article article) {
         Intent intent = new Intent(getContext(), WebViewActivity.class);
-        intent.putExtra(Constants.WEB_VIEW_URL,video.getUrl());
+        intent.putExtra(Constants.WEB_VIEW_URL, article.getLinkUrl());
         startActivity(intent);
       }
     });
