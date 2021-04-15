@@ -15,4 +15,12 @@
     <item name="android:windowBackground">@color/colorMainColor</item>
   </style>
 
+  <!-- 居中样式的loading spinner(用于ProgressDialog) -->
+  <!-- TODO 该loading样式在小米机型上很丑，带箭头而且不会转动 -->
+  <style name="loading_dialog_center" parent="android:Theme.Material.Dialog">
+    <!-- loading spinner的颜色设置为bootstrap btn-primary的蓝色 -->
+    <item name="android:colorAccent">@color/colorTextColor</item>
+    <item name="android:windowBackground">@color/transparent</item>
+  </style>
+
 </resources>

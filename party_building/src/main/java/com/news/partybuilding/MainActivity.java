@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
   @Override
   protected boolean isSupportLoad() {
-    return true;
+    return false;
   }
 
   // 两秒内连续按两下就退出APP-当前是否已经按了第一下

@@ -81,15 +81,15 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
           switchLoadView(loadState);
         }
       });
-      Activity activity = MyActivityManager.getInstance().getCurrentActivity();
-      if (activity instanceof MainActivity) {
-        ((MainActivity) activity).binding.fabTop.setVisibility(View.VISIBLE);
-      }
+//      Activity activity = MyActivityManager.getInstance().getCurrentActivity();
+//      if (activity instanceof MainActivity) {
+//        ((MainActivity) activity).binding.fabTop.setVisibility(View.VISIBLE);
+//      }
     } else {
-      Activity activity = MyActivityManager.getInstance().getCurrentActivity();
-      if (activity instanceof MainActivity) {
-        ((MainActivity) activity).binding.fabTop.setVisibility(View.GONE);
-      }
+//      Activity activity = MyActivityManager.getInstance().getCurrentActivity();
+//      if (activity instanceof MainActivity) {
+//        ((MainActivity) activity).binding.fabTop.setVisibility(View.GONE);
+//      }
     }
   }
 
@@ -193,7 +193,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends BaseVi
    * @return true表示支持，false表示不支持
    */
   protected boolean isSupportLoad() {
-    return false;
+    return true;
   }
 
   /**

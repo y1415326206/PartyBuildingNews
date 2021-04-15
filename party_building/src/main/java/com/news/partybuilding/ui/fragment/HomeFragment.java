@@ -3,6 +3,9 @@ package com.news.partybuilding.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.adapters.TextViewBindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,6 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -37,24 +42,32 @@ import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.config.LoadState;
 import com.news.partybuilding.databinding.FragmentHomeBinding;
 import com.news.partybuilding.databinding.LayoutSearchBottomSheetBinding;
+import com.news.partybuilding.network.Http;
+import com.news.partybuilding.network.Urls;
+import com.news.partybuilding.response.CityByNameResponse;
 import com.news.partybuilding.response.FirstLevelCategoriesResponse;
 import com.news.partybuilding.response.ProvincesCitiesResponse;
 import com.news.partybuilding.utils.LogUtils;
 import com.news.partybuilding.utils.NetWorkUtils;
 import com.news.partybuilding.utils.SharePreferenceUtil;
+import com.news.partybuilding.utils.UiOperation;
 import com.news.partybuilding.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
 
   private final ArrayList<String> mTitles = new ArrayList<>();
-  //private final String[] mTitles = {"1","2"};
+  private final ArrayList<String> mTitlesKey = new ArrayList<>();
   private TabLayoutMediator mediator;
   private AMapLocationClient mLocationClient;
   private AMapLocationClientOption mLocationOption;
+  private SimpleCardFragment simpleCardFragment;
+  private ArrayList<SimpleCardFragment> simpleCardFragments = new ArrayList<>();
+  private HashMap<String, String> firstLevelTitles = new HashMap<>();
   // 底部弹窗
   private BottomSheetDialog dialog;
   private LayoutSearchBottomSheetBinding bottomSheetBinding;
@@ -62,6 +75,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   private final List<CityModel> allCities = new ArrayList<>();
   //设置热门城市列表
   final List<CityModel> hotCities = new ArrayList<>();
+  // 分类id
+  private String categoryId;
+  // 城市id
+  private String cityId;
+  // 定位结果
+  private String cityName;
 
   @Override
   protected int getLayoutResId() {
@@ -81,35 +100,17 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
   @Override
   protected void init() {
-    // 请求省市数据
-    mViewModel.requestAllCities();
-    // 初始化tabLayout
-    initTabLayout();
-    // 初始化高德定位
-    initGaoDeLocation();
-    // 获取权限
-    if (!SharePreferenceUtil.getBoolean(Constants.IS_USER_ACCESS_FINE_LOCATION, false)) {
-      requestPermission();
-    }
-    // 给城市赋值
-    setDataToCities();
     // 设置搜索按钮大小
     setSearchIconBounds();
-    mDataBinding.location.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showSearchDialog();
-      }
-    });
-  }
+    // 初始化高德定位并获取权限
+    requestPermissionAndSetGaoDe();
+    // 请求接口数据
+    requestData();
+    // 观察viewModel数据
+    observeViewModelData();
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    // 开始定位
-    startLocation();
-    // 请求首页一级栏目数据
-    mViewModel.requestFirstLevelArticleCategories();
+    //initTabLayout();
+
   }
 
   // 设置搜索框图标大小
@@ -122,70 +123,183 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     mDataBinding.searchText.setCompoundDrawables(drawable, null, null, null);
   }
 
+  // 初始化高德定位并获取权限
+  private void requestPermissionAndSetGaoDe() {
+    // 初始化高德定位
+    initGaoDeLocation();
+    // 请求获取权限
+    if (!SharePreferenceUtil.getBoolean(Constants.IS_USER_ACCESS_FINE_LOCATION, false)) {
+      requestPermission();
+    }
+  }
 
-  /**
-   * 给城市赋值
-   */
-  private void setDataToCities() {
+  // 请求接口数据
+  private void requestData() {
+    // 请求省市数据
+    mViewModel.requestAllCities();
+    // 请求一级菜单栏
+    mViewModel.requestFirstLevelArticleCategories();
+  }
+
+
+  // 观察viewModel数据
+  private void observeViewModelData() {
+    mViewModel.cityByNameResponse.observe(this, new Observer<CityByNameResponse>() {
+      @Override
+      public void onChanged(CityByNameResponse cityByNameResponse) {
+        if (cityByNameResponse != null){
+          cityId = String.valueOf(cityByNameResponse.getCityId());
+        }
+      }
+    });
+
     mViewModel.provincesCitiesResponse.observe(this, new Observer<ProvincesCitiesResponse>() {
       @Override
       public void onChanged(ProvincesCitiesResponse provincesCitiesResponse) {
-        if (provincesCitiesResponse.getCitiesProvinces().size() > 0){
-          for (int i = 0; i<provincesCitiesResponse.getCitiesProvinces().size(); i++){
+        if (provincesCitiesResponse.getCitiesProvinces().size() > 0) {
+          for (int i = 0; i < provincesCitiesResponse.getCitiesProvinces().size(); i++) {
             allCities.add(new CityModel(provincesCitiesResponse.getCitiesProvinces().get(i).getLabel()));
+            if (provincesCitiesResponse.getCitiesProvinces().get(i).isHot()) {
+              hotCities.add(new CityModel(provincesCitiesResponse.getCitiesProvinces().get(i).getLabel()));
+            }
           }
         }
       }
     });
-    hotCities.add(new CityModel("北京"));
-    hotCities.add(new CityModel("新疆"));
-  }
 
-
-  /**
-   * 初始化tabLayout和ViewPager2
-   */
-  private void initTabLayout() {
-    // 给 mTitles赋值 用户显示tabLayout
     mViewModel.firstLevelResponse.observe(this, new Observer<FirstLevelCategoriesResponse>() {
       @Override
       public void onChanged(FirstLevelCategoriesResponse firstLevelCategoriesResponse) {
-
+        if (mTitles.size() > 0) {
+          mTitles.clear();
+        }
+        if (mTitlesKey.size() > 0){
+          mTitlesKey.clear();
+        }
         int firstLevelSize = firstLevelCategoriesResponse.getFirstLevelCategoriesList().size();
         if (firstLevelSize > 0) {
           for (int i = 0; i < firstLevelSize; i++) {
             mTitles.add(i, firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getName());
+            mTitlesKey.add(i, String.valueOf(firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getId()));
+            simpleCardFragment = new SimpleCardFragment();
+            simpleCardFragments.add(simpleCardFragment);
           }
         }
-
-        //禁用预加载
-        mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-        //Adapter
-        mDataBinding.viewPager.setAdapter(new FragmentStateAdapter(HomeFragment.this) {
-          @NonNull
-          @Override
-          public Fragment createFragment(int position) {
-            //LogUtils.i("--------ddd------>", mTitles.get(position));
-            return SimpleCardFragment.getInstance(mTitles.get(position));
-          }
-
-          @Override
-          public int getItemCount() {
-            return mTitles.size();
-          }
-        });
-        mediator = new TabLayoutMediator(mDataBinding.tabs, mDataBinding.viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-          @Override
-          public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-            //这里可以自定义TabView
-            tab.setText(mTitles.get(position));
-          }
-        });
-        //要执行这一句才是真正将两者绑定起来
-        mediator.attach();
       }
     });
   }
+
+
+
+  private void setPageData() {
+
+    // 获取城市id
+    getCityIdByName();
+    // 地理位置的点击事件
+    locationOnClick();
+  }
+
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    // 监听显示位置的文本是否发生改变
+    //initListenerOnLocationChange();
+  }
+
+
+  // 根据城市名称获取城市Id
+  private void getCityIdByName() {
+    // 调用给cityId赋值
+    //setCityIdData();
+  }
+
+  // 地理位置的点击事件
+  private void locationOnClick() {
+    mDataBinding.location.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // 给城市赋值
+       // setDataToCities();
+        showSearchDialog();
+      }
+    });
+  }
+
+  /**
+   * 监听显示位置的TextView 改变是调用返回城市ID接口
+   */
+  private void initListenerOnLocationChange() {
+    mDataBinding.location.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        getCityIdByName();
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
+
+  }
+
+
+
+
+  private void initTabLayout() {
+    //禁用预加载
+    mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
+    //viewPager 页面切换监听
+    mDataBinding.viewPager.registerOnPageChangeCallback(changeCallback);
+    //Adapter
+    mDataBinding.viewPager.setAdapter(new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
+      @NonNull
+      @Override
+      public Fragment createFragment(int position) {
+        // 实例化Fragment的时候传入两个参数
+        LogUtils.i("categoryId and cityID SHI ============>>>", categoryId + "  " + cityId);
+        Bundle bundle = new Bundle();
+        bundle.putString("categoryId", categoryId);
+        bundle.putString("cityId", cityId);
+        simpleCardFragment.setArguments(bundle);
+        return simpleCardFragments.get(position);
+      }
+
+      @Override
+      public int getItemCount() {
+        return mTitles.size();
+      }
+    });
+    mediator = new TabLayoutMediator(mDataBinding.tabs, mDataBinding.viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+      @Override
+      public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+        //这里可以自定义TabView
+        tab.setText(mTitles.get(position));
+      }
+    });
+    //要执行这一句才是真正将两者绑定起来
+    mediator.attach();
+  }
+
+
+  private final ViewPager2.OnPageChangeCallback changeCallback = new ViewPager2.OnPageChangeCallback() {
+    @Override
+    public void onPageSelected(int position) {
+
+      LogUtils.i("----------cateId  and cityId-----------", categoryId + " " + cityId);
+      //可以来设置选中时tab的大小
+      Bundle bundle = new Bundle();
+      bundle.putString("categoryId", categoryId);
+      bundle.putString("cityId", cityId);
+      simpleCardFragment.setArguments(bundle);
+    }
+  };
 
   /**
    * 请求定位权限
@@ -198,8 +312,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         @Override
         public void onGranted(List<String> permissions, boolean all) {
           if (all) {
-            //ToastUtils.show("获取成功");
-            startLocation();
+            mLocationClient.startLocation();
           }
         }
 
@@ -212,6 +325,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
           } else {
             SharePreferenceUtil.setParam(Constants.IS_USER_ACCESS_FINE_LOCATION, true);
             ToastUtils.show("获取权限失败");
+            if (cityName == null) {
+              cityName = mDataBinding.location.getText().toString();
+            }
+            mViewModel.getCityId(cityName);
           }
         }
       });
@@ -228,23 +345,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
       mLocationClient.setLocationListener(mAMapLocationListener);
       //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
       mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-      mLocationOption.setInterval(5000);
+      // 设置单次定位
+      mLocationOption.setOnceLocation(true);
+      //mLocationOption.setInterval(5000);
       //设置定位参数
       mLocationClient.setLocationOption(mLocationOption);
     } catch (Exception e) {
       ToastUtils.show("高德定位初始化失败");
-      mDataBinding.location.setText("新疆");
+      mDataBinding.location.setText("乌鲁木齐");
     }
 
   }
 
-  /**
-   * 开始定位
-   */
-  private void startLocation() {
-    //启动定位
-    mLocationClient.startLocation();
-  }
 
   //异步获取定位结果
   AMapLocationListener mAMapLocationListener = new AMapLocationListener() {
@@ -253,28 +365,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
       if (amapLocation != null) {
         if (amapLocation.getErrorCode() == 0) {
           //解析定位结果
-          //解析定位结果
+          LogUtils.i("解析定位结果", "=========");
           mDataBinding.location.setText(amapLocation.getCity());
-          //获取当前定位结果来源，如网络定位结果，详见定位类型表
-          LogUtils.i("定位类型", amapLocation.getLocationType() + "");
-          LogUtils.i("获取纬度", amapLocation.getLatitude() + "");
-          LogUtils.i("获取经度", amapLocation.getLongitude() + "");
-          LogUtils.i("获取精度信息", amapLocation.getAccuracy() + "");
-
-          //如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-          LogUtils.i("地址", amapLocation.getAddress());
-          LogUtils.i("国家信息", amapLocation.getCountry());
-          LogUtils.i("省信息", amapLocation.getProvince());
-          LogUtils.i("城市信息", amapLocation.getCity());
-          LogUtils.i("城区信息", amapLocation.getDistrict());
-          LogUtils.i("街道信息", amapLocation.getStreet());
-          LogUtils.i("街道门牌号信息", amapLocation.getStreetNum());
-          LogUtils.i("城市编码", amapLocation.getCityCode());
-          LogUtils.i("地区编码", amapLocation.getAdCode());
-          LogUtils.i("获取当前定位点的AOI信息", amapLocation.getAoiName());
-          LogUtils.i("获取当前室内定位的建筑物Id", amapLocation.getBuildingId());
-          LogUtils.i("获取当前室内定位的楼层", amapLocation.getFloor());
-          LogUtils.i("获取GPS的当前状态", amapLocation.getGpsAccuracyStatus() + "");
+          cityName = amapLocation.getCity();
+          mViewModel.getCityId(cityName);
         } else {
           //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
           LogUtils.e("HomeFragment==> 高德定位", "location Error, ErrCode:"

@@ -9,6 +9,8 @@ public class CitiesProvinces {
   private int value;
   @SerializedName("label")
   private String label;
+  @SerializedName("is_hot")
+  private boolean isHot;
 
   public int getValue() {
     return value;
@@ -24,5 +26,13 @@ public class CitiesProvinces {
 
   public void setLabel(String label) {
     this.label = label;
+  }
+
+  public boolean isHot() {
+    return isHot;
+  }
+
+  public void setHot(boolean hot) {
+    isHot = hot;
   }
 }

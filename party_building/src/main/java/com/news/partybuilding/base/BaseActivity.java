@@ -132,7 +132,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends BaseVi
    * @return true表示支持，false表示不支持
    */
   protected boolean isSupportLoad() {
-    return false;
+    return true;
   }
 
   /**

@@ -2,15 +2,13 @@ package com.news.partybuilding.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Article {
+public class ThirdArticle {
   @SerializedName("id")
   private int id;
   @SerializedName("title")
   private String title;
   @SerializedName("type")
   private String type;
-  @SerializedName("article_type")
-  private String articleType;
   @SerializedName("cover_picture_url")
   private String coverPictureUrl;
   @SerializedName("author_name")
@@ -84,13 +82,5 @@ public class Article {
 
   public void setCreatedAt(String createdAt) {
     this.createdAt = createdAt;
-  }
-
-  public String getArticleType() {
-    return articleType;
-  }
-
-  public void setArticleType(String articleType) {
-    this.articleType = articleType;
   }
 }

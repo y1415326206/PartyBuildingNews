@@ -50,7 +50,7 @@
         android:padding="5dp"
         android:singleLine="true"
         android:ellipsize="end"
-        android:text="新疆"
+        android:text="乌鲁木齐"
         android:textColor="@color/colorWhite" />
 
     </LinearLayout>
@@ -65,7 +65,7 @@
       <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="45dp"
         android:background="@color/colorTransparent"
         app:tabIndicatorColor="@color/colorMainColor"
         app:tabMode="scrollable"
@@ -81,6 +81,19 @@
         android:orientation="horizontal" />
 
     </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--      android:id="@+id/progress"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="match_parent"-->
+<!--      android:gravity="center"-->
+<!--      android:visibility="gone"-->
+<!--      android:orientation="vertical">-->
+<!--      <ProgressBar-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_gravity="center"/>-->
+<!--    </LinearLayout>-->
 
 
 <!--    <com.youth.banner.Banner-->

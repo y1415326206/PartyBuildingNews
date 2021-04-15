@@ -16,4 +16,12 @@ public final class Constants {
     public static final String WEB_VIEW_URL = "web_view_url";
     // 网络访问成功的标识
     public static final int SUCCESS_CODE = 20000;
+    // 广告标识
+    public static final String ADVERTISEMENT = "advertisement";
+    // 文章标识
+    public static final String ARTICLE = "article";
+    // 视频标识
+    public static final String VIDEO = "video";
+    // banner 图片标识
+    public static final String IMAGE = "image";
 }

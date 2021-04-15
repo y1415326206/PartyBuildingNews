@@ -3,9 +3,9 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
-<variable
-  name="data"
-  type="com.news.partybuilding.model.EmptyValue" />
+    <variable
+      name="data"
+      type="com.news.partybuilding.model.SecondChildren" />
   </data>
 
   <LinearLayout
@@ -21,29 +21,22 @@
       android:layout_height="wrap_content"
       android:orientation="horizontal">
 
-
-      <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:text="@{data.titleMore}"
-        android:textColor="@color/colorTextColor"
-        tools:text="今日值得看" />
-
+      <View
+        android:layout_width="3dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center"
+        android:background="@color/colorMainColor" />
 
       <TextView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="@{data.name}"
         android:textColor="@color/colorTextColor"
-        android:text="查看更多" />
+        tools:text="今日值得看" />
 
-      <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_gravity="center"
-        android:src="@drawable/icon_go_right" />
 
     </LinearLayout>
 
