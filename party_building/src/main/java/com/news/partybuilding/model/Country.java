@@ -2,17 +2,14 @@ package com.news.partybuilding.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class CitiesProvincesChildren {
+// 区县类
+public class Country {
   @SerializedName("value")
   private int value;
   @SerializedName("label")
   private String label;
   @SerializedName("is_hot")
   private boolean isHot;
-  @SerializedName("children")
-  private List<Country> countryList;
 
   public int getValue() {
     return value;
@@ -36,13 +33,5 @@ public class CitiesProvincesChildren {
 
   public void setHot(boolean hot) {
     isHot = hot;
-  }
-
-  public List<Country> getCountryList() {
-    return countryList;
-  }
-
-  public void setCountryList(List<Country> countryList) {
-    this.countryList = countryList;
   }
 }

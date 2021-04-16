@@ -24,7 +24,9 @@ public final class Urls {
   // 所有文章一级大类
   public static final String FIRST_LEVEL_ARTICLE_CATEGORIES = "first_level_article_categories";
   // 省市数据
-  public static final String PROVINCES_CITIES = "cities";
+  public static final String CITIES = "cities";
+  // 所有省市数据
+  public static final String PROVINCES_CITIES = "provinces_cities";
   // 个人中心
   public static final String USER_CENTER = "user_center";
   // 修改用户信息
@@ -57,4 +59,8 @@ public final class Urls {
   public static final String SEND_BIND_MOBILE_SMS_TOKEN_TO_MEMBER = "send_bind_mobile_sms_token_to_member";
   //新版极验 使用post请求
   public static final String GEETEST = "https://" + BuildConfig.HOSTNAME_URL + "/api/v2/gee_test/register";
+  // 省市区 单独接口
+  public static final String PROVINCES_CITIES_COUNTRIES = "provinces_cities_counties";
+  // 请求党组织
+  public static final String PARTY_ORGANIZATIONS = "party_organizations";
 }

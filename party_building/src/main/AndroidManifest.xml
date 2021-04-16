@@ -29,7 +29,8 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.PartyBuilding"
     tools:replace="android:label">
-    <activity android:name=".ui.activity.settings.BindOrEditMobileActivity"></activity>
+    <activity android:name=".ui.activity.settings.UserCenterActivity"></activity>
+    <activity android:name=".ui.activity.settings.BindOrEditMobileActivity" />
     <activity android:name=".ui.activity.settings.AccountSettingActivity" />
     <activity android:name=".ui.activity.settings.SettingsActivity" />
     <activity android:name=".ui.activity.mydownloads.MyDownloadsActivity" />

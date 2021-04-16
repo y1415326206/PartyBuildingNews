@@ -70,6 +70,7 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, Sett
         startActivity(new Intent(this, AccountSettingActivity.class));
         break;
       case R.id.edit_information:
+        startActivity(new Intent(this, UserCenterActivity.class));
         break;
     }
   }

@@ -80,6 +80,10 @@ public class SharePreferenceUtil {
     return sp.getString(key, defaultValue);
   }
 
+  public static int getInt(String key, int defaultValue){
+    SharedPreferences sp = BaseApplication.getContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    return sp.getInt(key, defaultValue);
+  }
   /**
    * 是否登录
    */

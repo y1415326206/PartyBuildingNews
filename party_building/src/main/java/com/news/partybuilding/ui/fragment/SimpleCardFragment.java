@@ -143,7 +143,8 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
             // 如果没有文章 看一下是否有children
             else {
               // 如果有children 就添加二级分类和三级分类标题到 item中去
-              if (homeResponse.getHomeData().getSecondChildrenList().get(i).getChildrens().size() > 0) {
+              if (homeResponse.getHomeData().getSecondChildrenList().get(i).getChildrens() != null &&
+                homeResponse.getHomeData().getSecondChildrenList().get(i).getChildrens().size() > 0) {
                 // 默认选中的 三级分类标题的ID
                 int checkedId = homeResponse.getHomeData().getSecondChildrenList().get(i).getCheckedChildrenId();
 

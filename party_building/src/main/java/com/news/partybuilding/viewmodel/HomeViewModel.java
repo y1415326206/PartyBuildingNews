@@ -1,9 +1,6 @@
 package com.news.partybuilding.viewmodel;
 
 
-import android.annotation.SuppressLint;
-import android.view.View;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
@@ -14,8 +11,7 @@ import com.news.partybuilding.network.Http;
 import com.news.partybuilding.network.Urls;
 import com.news.partybuilding.response.CityByNameResponse;
 import com.news.partybuilding.response.FirstLevelCategoriesResponse;
-import com.news.partybuilding.response.HomeBannerResponse;
-import com.news.partybuilding.response.ProvincesCitiesResponse;
+import com.news.partybuilding.response.CitiesResponse;
 import com.news.partybuilding.utils.LogUtils;
 import com.news.partybuilding.utils.NetWorkUtils;
 
@@ -27,7 +23,7 @@ public class HomeViewModel extends BaseViewModel {
   // 一级类别数据
   public MutableLiveData<FirstLevelCategoriesResponse> firstLevelResponse = new MutableLiveData<>();
   // 城市数据
-  public MutableLiveData<ProvincesCitiesResponse> provincesCitiesResponse = new MutableLiveData<>();
+  public MutableLiveData<CitiesResponse> provincesCitiesResponse = new MutableLiveData<>();
   // 根据城市名称返回城市id
   public MutableLiveData<CityByNameResponse> cityByNameResponse = new MutableLiveData<>();
 
@@ -71,11 +67,11 @@ public class HomeViewModel extends BaseViewModel {
   public void requestAllCities() {
     if (NetWorkUtils.isConnected()) {
       loadState.postValue(LoadState.LOADING);
-      new Http(Urls.PROVINCES_CITIES).get(new Http.ResponseCallBack() {
+      new Http(Urls.CITIES).get(new Http.ResponseCallBack() {
         @Override
         public void onResponse(String response) {
           if (!response.isEmpty()) {
-            final ProvincesCitiesResponse cityResponse = new Gson().fromJson(response, ProvincesCitiesResponse.class);
+            final CitiesResponse cityResponse = new Gson().fromJson(response, CitiesResponse.class);
             if (cityResponse.getCode() == Constants.SUCCESS_CODE) {
               loadState.postValue(LoadState.SUCCESS);
               provincesCitiesResponse.postValue(cityResponse);

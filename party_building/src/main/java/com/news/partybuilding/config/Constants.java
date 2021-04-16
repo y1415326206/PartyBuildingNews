@@ -32,4 +32,6 @@ public final class Constants {
     public static final String DEFAULT_NICK_NAME = "default_nick_name";
     // 用户手机号
     public static final String MOBILE = "mobile";
+    // 性别标识
+    public static final String MAN = "man";
 }

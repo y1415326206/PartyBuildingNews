@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.adapters.TextViewBindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,7 +29,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.gson.Gson;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -39,18 +36,13 @@ import com.hjq.toast.ToastUtils;
 import com.news.partybuilding.R;
 import com.news.partybuilding.base.BaseFragment;
 import com.news.partybuilding.config.Constants;
-import com.news.partybuilding.config.LoadState;
 import com.news.partybuilding.databinding.FragmentHomeBinding;
 import com.news.partybuilding.databinding.LayoutSearchBottomSheetBinding;
-import com.news.partybuilding.network.Http;
-import com.news.partybuilding.network.Urls;
 import com.news.partybuilding.response.CityByNameResponse;
 import com.news.partybuilding.response.FirstLevelCategoriesResponse;
-import com.news.partybuilding.response.ProvincesCitiesResponse;
+import com.news.partybuilding.response.CitiesResponse;
 import com.news.partybuilding.utils.LogUtils;
-import com.news.partybuilding.utils.NetWorkUtils;
 import com.news.partybuilding.utils.SharePreferenceUtil;
-import com.news.partybuilding.utils.UiOperation;
 import com.news.partybuilding.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
@@ -164,14 +156,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
       }
     });
 
-    mViewModel.provincesCitiesResponse.observe(this, new Observer<ProvincesCitiesResponse>() {
+    mViewModel.provincesCitiesResponse.observe(this, new Observer<CitiesResponse>() {
       @Override
-      public void onChanged(ProvincesCitiesResponse provincesCitiesResponse) {
-        if (provincesCitiesResponse.getCitiesProvinces().size() > 0) {
-          for (int i = 0; i < provincesCitiesResponse.getCitiesProvinces().size(); i++) {
-            allCities.add(new CityModel(provincesCitiesResponse.getCitiesProvinces().get(i).getLabel()));
-            if (provincesCitiesResponse.getCitiesProvinces().get(i).isHot()) {
-              hotCities.add(new CityModel(provincesCitiesResponse.getCitiesProvinces().get(i).getLabel()));
+      public void onChanged(CitiesResponse citiesResponse) {
+        if (citiesResponse.getCitiesProvinces().size() > 0) {
+          for (int i = 0; i < citiesResponse.getCitiesProvinces().size(); i++) {
+            allCities.add(new CityModel(citiesResponse.getCitiesProvinces().get(i).getLabel()));
+            if (citiesResponse.getCitiesProvinces().get(i).isHot()) {
+              hotCities.add(new CityModel(citiesResponse.getCitiesProvinces().get(i).getLabel()));
             }
           }
         }

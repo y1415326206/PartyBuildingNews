@@ -5,7 +5,7 @@ import com.news.partybuilding.model.CitiesProvinces;
 
 import java.util.List;
 
-public class ProvincesCitiesResponse {
+public class CitiesResponse {
   @SerializedName("code")
   private int code;
   @SerializedName("message")
