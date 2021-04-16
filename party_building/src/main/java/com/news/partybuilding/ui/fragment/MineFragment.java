@@ -16,6 +16,7 @@ import com.news.partybuilding.ui.activity.mydownloads.MyDownloadsActivity;
 import com.news.partybuilding.ui.activity.myfavourites.MyFavouritesActivity;
 import com.news.partybuilding.ui.activity.mymessage.MyMessageActivity;
 import com.news.partybuilding.ui.activity.myrecords.MyRecordsActivity;
+import com.news.partybuilding.ui.activity.settings.SettingsActivity;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.MineViewModel;
 
@@ -43,6 +44,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     super.onResume();
     // 是否登录
     loginOrNot();
+    mViewModel.defaultNickName.postValue(SharePreferenceUtil.getString(Constants.DEFAULT_NICK_NAME,""));
   }
 
   private void loginOrNot() {
@@ -51,12 +53,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
   private void initListener() {
     mDataBinding.goLogin.setOnClickListener(this);
-    mDataBinding.logout.setOnClickListener(this);
     mDataBinding.aboutApp.setOnClickListener(this);
     mDataBinding.myFavourites.setOnClickListener(this);
     mDataBinding.myRecords.setOnClickListener(this);
     mDataBinding.myMessage.setOnClickListener(this);
     mDataBinding.myDownloads.setOnClickListener(this);
+    mDataBinding.settings.setOnClickListener(this);
   }
 
 
@@ -75,9 +77,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
       case R.id.go_login:
         startActivity(new Intent(getActivity(), LoginActivity.class));
         break;
-      case R.id.logout:
-        logout();
-        break;
       case R.id.about_app:
         startActivity(new Intent(getActivity(), AboutAppActivity.class));
         break;
@@ -92,6 +91,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         break;
       case R.id.my_downloads:
         startActivity(new Intent(getActivity(), MyDownloadsActivity.class));
+        break;
+      case R.id.settings:
+        startActivityIfLogin(SettingsActivity.class);
         break;
     }
   }

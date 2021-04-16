@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+     <variable
+       name="data"
+       type="com.news.partybuilding.viewmodel.AccountSettingViewModel" />
+    <import type="android.view.View"/>
+  </data>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    tools:context=".ui.activity.settings.AccountSettingActivity">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:orientation="horizontal"
+      app:layout_constraintTop_toTopOf="parent">
+
+      <ImageView
+        android:id="@+id/go_back"
+        android:layout_width="50dp"
+        android:padding="15dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_go_back" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="账号设置"
+        android:textColor="@color/colorTextColor"
+        android:gravity="center"
+        android:layout_marginEnd="50dp"
+        android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="10dp"
+      android:background="@color/colorViewGray"/>
+
+    <LinearLayout
+      android:id="@+id/bind_or_edit"
+      android:layout_width="match_parent"
+      android:layout_height="52dp"
+      android:gravity="center_vertical"
+      >
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="修改手机号"
+        android:text="@{data.mobileEmpty? `绑定手机号` : `修改手机号`}"
+        android:layout_marginStart="16dp"
+        android:textSize="15sp"
+        android:textColor="@color/colorTextColor"
+        />
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="134**343"
+        android:visibility="@{data.mobileEmpty? View.GONE : View.VISIBLE}"
+        android:textSize="15sp"
+        android:gravity="end"
+        android:text="@{data.mobile}"
+        android:textColor="@color/colorTextHintGray"
+        />
+
+      <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/icon_go_right"/>
+
+    </LinearLayout>
+
+  </LinearLayout>
+</layout>

@@ -36,7 +36,7 @@
         android:background="@drawable/bg_white_half_border"/>
 
       <LinearLayout
-        android:id="@+id/person_center"
+        android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:visibility="@{mineViewModel.loginOrNot ? View.VISIBLE : View.GONE, default=`gone`}"
@@ -48,6 +48,7 @@
           android:layout_height="match_parent"
           android:src="@drawable/icon_default_profile"/>
         <TextView
+          android:id="@+id/nick_name"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_gravity="center"
@@ -55,13 +56,14 @@
           android:textSize="18sp"
           android:layout_marginStart="16dp"
           android:layout_weight="1"
-          android:text="我爱中国共产党"/>
+          android:text="@{mineViewModel.defaultNickName}"
+          tools:text="我爱中国共产党"/>
 
         <ImageView
           android:layout_width="20dp"
           android:layout_height="20dp"
           android:layout_gravity="center"
-          android:src="@drawable/icon_go_right"/>
+          android:src="@drawable/icon_setting"/>
 
       </LinearLayout>
 
@@ -344,31 +346,31 @@
       </LinearLayout>
 
 
-      <LinearLayout
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:gravity="center_vertical"
-        android:visibility="@{mineViewModel.loginOrNot ? View.VISIBLE : View.GONE}"
-        >
+<!--      <LinearLayout-->
+<!--        android:id="@+id/logout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="52dp"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:visibility="@{mineViewModel.loginOrNot ? View.VISIBLE : View.GONE}"-->
+<!--        >-->
 
-        <ImageView
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginStart="16dp"
-          android:src="@drawable/icon_logout"/>
+<!--        <ImageView-->
+<!--          android:layout_width="20dp"-->
+<!--          android:layout_height="20dp"-->
+<!--          android:layout_marginStart="16dp"-->
+<!--          android:src="@drawable/icon_logout"/>-->
 
-        <TextView
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="退出登录"
-          android:layout_marginStart="16dp"
-          android:textSize="15sp"
-          android:textColor="@color/colorTextColor"
-          />
+<!--        <TextView-->
+<!--          android:layout_width="0dp"-->
+<!--          android:layout_height="wrap_content"-->
+<!--          android:layout_weight="1"-->
+<!--          android:text="退出登录"-->
+<!--          android:layout_marginStart="16dp"-->
+<!--          android:textSize="15sp"-->
+<!--          android:textColor="@color/colorTextColor"-->
+<!--          />-->
 
-      </LinearLayout>
+<!--      </LinearLayout>-->
 
     </LinearLayout>
 

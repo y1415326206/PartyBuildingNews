@@ -67,6 +67,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   private AMapLocationClientOption mLocationOption;
   private SimpleCardFragment simpleCardFragment;
   private ArrayList<SimpleCardFragment> simpleCardFragments = new ArrayList<>();
+
   private HashMap<String, String> firstLevelTitles = new HashMap<>();
   // 底部弹窗
   private BottomSheetDialog dialog;
@@ -82,6 +83,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   // 定位结果
   private String cityName;
 
+  private boolean isInit = false;
+
+  private int firstLevelSize = 0;
+
+  private FirstLevelCategoriesResponse currentFirstLevelCategoriesResponse;
+
   @Override
   protected int getLayoutResId() {
     return R.layout.fragment_home;
@@ -95,7 +102,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   @Override
   protected void initAndBindViewModel() {
     mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-    mDataBinding.setViewModel(mViewModel);
   }
 
   @Override
@@ -103,14 +109,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     // 设置搜索按钮大小
     setSearchIconBounds();
     // 初始化高德定位并获取权限
-    requestPermissionAndSetGaoDe();
+    //requestPermissionAndSetGaoDe();
     // 请求接口数据
     requestData();
     // 观察viewModel数据
     observeViewModelData();
-
-    //initTabLayout();
-
+//    initTabLayout();
   }
 
   // 设置搜索框图标大小
@@ -139,6 +143,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     mViewModel.requestAllCities();
     // 请求一级菜单栏
     mViewModel.requestFirstLevelArticleCategories();
+    //
+    mViewModel.getCityId(mDataBinding.location.getText().toString());
   }
 
 
@@ -147,8 +153,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     mViewModel.cityByNameResponse.observe(this, new Observer<CityByNameResponse>() {
       @Override
       public void onChanged(CityByNameResponse cityByNameResponse) {
-        if (cityByNameResponse != null){
-          cityId = String.valueOf(cityByNameResponse.getCityId());
+        if (cityByNameResponse != null) {
+          cityId = String.valueOf(cityByNameResponse.getCityId().getId());
+          LogUtils.i("====111====categoryId and cityId========",categoryId + "  " + cityId);
+          if (cityId != null && categoryId != null && !isInit){
+            LogUtils.i("=======11=========","===================11=============");
+            initTabLayout();
+          }
         }
       }
     });
@@ -173,30 +184,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (mTitles.size() > 0) {
           mTitles.clear();
         }
-        if (mTitlesKey.size() > 0){
+        if (mTitlesKey.size() > 0) {
           mTitlesKey.clear();
         }
-        int firstLevelSize = firstLevelCategoriesResponse.getFirstLevelCategoriesList().size();
-        if (firstLevelSize > 0) {
-          for (int i = 0; i < firstLevelSize; i++) {
-            mTitles.add(i, firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getName());
-            mTitlesKey.add(i, String.valueOf(firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getId()));
-            simpleCardFragment = new SimpleCardFragment();
-            simpleCardFragments.add(simpleCardFragment);
-          }
+        categoryId = String.valueOf(firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(0).getId());
+        firstLevelSize = firstLevelCategoriesResponse.getFirstLevelCategoriesList().size();
+        currentFirstLevelCategoriesResponse = firstLevelCategoriesResponse;
+
+        LogUtils.i("===222=====categoryId and cityId========",categoryId + "  " + cityId);
+        if (cityId != null && categoryId != null && !isInit){
+          LogUtils.i("========22========","================22================");
+          initTabLayout();
         }
       }
     });
-  }
-
-
-
-  private void setPageData() {
-
-    // 获取城市id
-    getCityIdByName();
-    // 地理位置的点击事件
-    locationOnClick();
   }
 
 
@@ -204,30 +205,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   public void onResume() {
     super.onResume();
     // 监听显示位置的文本是否发生改变
-    //initListenerOnLocationChange();
-  }
-
-
-  // 根据城市名称获取城市Id
-  private void getCityIdByName() {
-    // 调用给cityId赋值
-    //setCityIdData();
-  }
-
-  // 地理位置的点击事件
-  private void locationOnClick() {
+    initListenerOnLocationChange();
     mDataBinding.location.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // 给城市赋值
-       // setDataToCities();
         showSearchDialog();
       }
     });
   }
 
+
   /**
-   * 监听显示位置的TextView 改变是调用返回城市ID接口
+   * 监听显示位置的TextView 改变时调用返回城市ID接口
    */
   private void initListenerOnLocationChange() {
     mDataBinding.location.addTextChangedListener(new TextWatcher() {
@@ -238,7 +228,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
-        getCityIdByName();
+        mViewModel.getCityId(cityName);
       }
 
       @Override
@@ -250,9 +240,25 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   }
 
 
-
-
   private void initTabLayout() {
+
+    if (firstLevelSize > 0) {
+      for (int i = 0; i < firstLevelSize; i++) {
+        mTitles.add(i, currentFirstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getName());
+        mTitlesKey.add(i, String.valueOf(currentFirstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getId()));
+        simpleCardFragment = new SimpleCardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("categoryId", categoryId);
+        bundle.putString("cityId", cityId);
+        LogUtils.i("===4444=====categoryId and cityId========",categoryId + "  " + cityId);
+        simpleCardFragment.setArguments(bundle);
+        simpleCardFragments.add(simpleCardFragment);
+      }
+    }
+
+
+
+    isInit = true;
     //禁用预加载
     mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
     //viewPager 页面切换监听
@@ -263,10 +269,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
       @Override
       public Fragment createFragment(int position) {
         // 实例化Fragment的时候传入两个参数
-        LogUtils.i("categoryId and cityID SHI ============>>>", categoryId + "  " + cityId);
         Bundle bundle = new Bundle();
         bundle.putString("categoryId", categoryId);
         bundle.putString("cityId", cityId);
+        LogUtils.i("===3333=====categoryId and cityId========",categoryId + "  " + cityId);
         simpleCardFragment.setArguments(bundle);
         return simpleCardFragments.get(position);
       }
@@ -467,7 +473,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     bottomSheetBinding.cityView.setOnCitySelectListener(new OnCitySelectListener() {
       @Override
       public void onCitySelect(CityModel cityModel) {
-
+        mDataBinding.location.setText(cityModel.getCityName());
+        dialog.dismiss();
       }
 
       @Override

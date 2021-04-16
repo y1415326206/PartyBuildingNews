@@ -46,9 +46,15 @@ public final class Urls {
   // 扫描完身份证后 ，进行扫描人脸 成功后调的接口
   public static final String AFTER_SCAN_FACE = "after_scan_face";
   // 登录发送手机验证码接口
-  public static final String SEND_SMS_TOKEN_TO_MEMBER = "send_sms_token_to_member";
+  public static final String SEND_SIGN_SMS_TOKEN_TO_MEMBER = "send_sign_sms_token_to_member";
   // 手机验证码登录/注册
   public static final String MOBILE_SIGN_IN = "mobile_sign_in";
+  // 换绑手机
+  public static final String BIND_MOBILE = "bind_mobile";
   // 微信授权登录
   public static final String WECHAT_SIGN_IN_BY_APP = "wechat_sign_in_by_app";
+  // 绑定或换绑手机发送验证码
+  public static final String SEND_BIND_MOBILE_SMS_TOKEN_TO_MEMBER = "send_bind_mobile_sms_token_to_member";
+  //新版极验 使用post请求
+  public static final String GEETEST = "https://" + BuildConfig.HOSTNAME_URL + "/api/v2/gee_test/register";
 }

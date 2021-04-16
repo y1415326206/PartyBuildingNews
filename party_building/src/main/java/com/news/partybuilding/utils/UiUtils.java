@@ -19,7 +19,7 @@ public class UiUtils {
     button.setTextColor(context.getResources().getColor(R.color.colorTextHintGray));
     button.setBackground(context.getResources().getDrawable(R.drawable.bg_gray_half_border_solid));
     button.setEnabled(false);
-    new CountDownTimer(10000, 1000) {
+    new CountDownTimer(60000, 1000) {
       @Override
       public void onTick(long millisUntilFinished) {
         button.setText(context.getResources().getString(R.string.resend_countdown, String.valueOf(millisUntilFinished / 1000)));
@@ -54,5 +54,13 @@ public class UiUtils {
       .navigationBarDarkIcon(true) //导航栏图标是深色，不写默认为亮色
       .fitsSystemWindows(true)
       .init();
+  }
+
+  public static String hideUserAccount(String userAccountNotHide){
+    if (userAccountNotHide.contains("@")){
+      return userAccountNotHide.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1****$3$4");
+    }else {
+      return userAccountNotHide.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+    }
   }
 }

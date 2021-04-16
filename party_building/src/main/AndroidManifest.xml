@@ -24,12 +24,15 @@
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
     android:label="${APP_NAME}"
+    android:networkSecurityConfig="@xml/network_security_config"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:networkSecurityConfig="@xml/network_security_config"
     android:theme="@style/Theme.PartyBuilding"
     tools:replace="android:label">
-    <activity android:name=".ui.activity.mydownloads.MyDownloadsActivity"/>
+    <activity android:name=".ui.activity.settings.BindOrEditMobileActivity"></activity>
+    <activity android:name=".ui.activity.settings.AccountSettingActivity" />
+    <activity android:name=".ui.activity.settings.SettingsActivity" />
+    <activity android:name=".ui.activity.mydownloads.MyDownloadsActivity" />
     <activity android:name=".ui.activity.mymessage.MyMessageActivity" />
     <activity android:name=".ui.activity.myrecords.MyRecordsActivity" />
     <activity android:name=".ui.activity.myfavourites.MyFavouritesActivity" />

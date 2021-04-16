@@ -42,7 +42,7 @@ android {
             buildConfigField 'String', 'BASE_URL', '"http://djtt-test-api.sweetysoft.com/api/v2/djtt/"'
             buildConfigField 'String', 'WEBSOCKET_URL', '"wss://ws.cadex.top/ws/"'
             buildConfigField 'String', 'SSL_CERT', '"test_zzt.cert"'
-            buildConfigField 'String', 'HOSTNAME_URL', '"api.testzztpoint.top"'
+            buildConfigField 'String', 'HOSTNAME_URL', '"api.zztecology.com"'
             buildConfigField 'String', 'WEBSOCKET_SSL_CERT', '"websocket_cert.cert"'
             signingConfig signingConfigs.debug
         }
@@ -159,5 +159,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     // recycleView 复杂布局依赖
     implementation 'com.drakeet.multitype:multitype:4.2.0'
-
+    // 极验
+    implementation 'com.geetest.sensebot:sensebot:4.2.5'
+    // 仅用于极验请求
+    implementation 'com.android.volley:volley:1.1.1'
 }

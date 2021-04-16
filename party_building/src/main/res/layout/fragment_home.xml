@@ -50,7 +50,7 @@
         android:padding="5dp"
         android:singleLine="true"
         android:ellipsize="end"
-        android:text="乌鲁木齐"
+        android:text="北京"
         android:textColor="@color/colorWhite" />
 
     </LinearLayout>
