@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.drakeet.multitype.ItemViewDelegate;
 import com.drakeet.multitype.JavaClassLinker;
@@ -36,19 +37,12 @@ import java.util.List;
 
 
 public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, SimpleCardViewModel> {
+
   private String categoryId;
   private String cityId;
 
-  private MultiTypeAdapter adapter;
-  private ArrayList<Object> items;
-
-
-//  public static SimpleCardFragment getInstance(String categoryId, String cityId) {
-//    SimpleCardFragment simpleCardFragment = new SimpleCardFragment();
-//    simpleCardFragment.categoryId = categoryId;
-//    simpleCardFragment.cityId = cityId;
-//    return simpleCardFragment;
-//  }
+  private MultiTypeAdapter adapter = new MultiTypeAdapter();
+  private ArrayList<Object> items = new ArrayList<>();
 
   @Override
   protected int getLayoutResId() {
@@ -63,22 +57,27 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
 
   @Override
   protected void init() {
+    // 初始化recycleView复杂布局
+    initMultiTypeRecycle();
+    observeData();
+  }
+
+
+  @Override
+  public void onResume() {
+    super.onResume();
     categoryId = getArguments().getString("categoryId");
     cityId = getArguments().getString("cityId");
     // 请求首页数据
     mViewModel.requestHomeData(categoryId, cityId);
-    // 初始化recycleView复杂布局
-    initMultiTypeRecycle();
   }
 
   /**
    * 初始化recycleView复杂布局
    */
   private void initMultiTypeRecycle() {
-    items = new ArrayList<>();
-    adapter = new MultiTypeAdapter();
     // 注册图片管理器
-    adapter.register(Banner.class, new BannerViewProvider());
+    adapter.register(Banner.class, new BannerViewProvider(getContext()));
     // 注册文章管理器和广告管理器 这里是一个Class对应多个Provider 根据情况注册不同的Provider
     adapter.register(Article.class).to(new FirstArticleViewProvider(), new AdvertisementViewProvider()).withJavaClassLinker(new JavaClassLinker<Article>() {
       @NotNull
@@ -119,10 +118,19 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
         }
       }
     });
+
+    mDataBinding.recyclerView.setLayoutManager(layoutManager);
+    adapter.setItems(items);
+    mDataBinding.recyclerView.setAdapter(adapter);
+  }
+
+  private void observeData(){
     mViewModel.homeResponse.observe(this, new Observer<HomeResponse>() {
       @Override
       public void onChanged(HomeResponse homeResponse) {
-        mDataBinding.recyclerView.setLayoutManager(layoutManager);
+        if (items.size() > 0){
+          items.clear();
+        }
         // banner 数据
         if (homeResponse.getHomeData().isShowBanner()) {
           items.add(homeResponse.getHomeData().getBanner());
@@ -163,8 +171,6 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
             }
           }
         }
-        adapter.setItems(items);
-        mDataBinding.recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
       }
     });

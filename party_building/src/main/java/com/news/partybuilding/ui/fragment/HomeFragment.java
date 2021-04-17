@@ -41,26 +41,24 @@ import com.news.partybuilding.databinding.LayoutSearchBottomSheetBinding;
 import com.news.partybuilding.response.CityByNameResponse;
 import com.news.partybuilding.response.FirstLevelCategoriesResponse;
 import com.news.partybuilding.response.CitiesResponse;
+import com.news.partybuilding.ui.adapter.SimpleCardFragmentAdapter;
 import com.news.partybuilding.utils.LogUtils;
 import com.news.partybuilding.utils.SharePreferenceUtil;
 import com.news.partybuilding.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
 
-  private final ArrayList<String> mTitles = new ArrayList<>();
-  private final ArrayList<String> mTitlesKey = new ArrayList<>();
   private TabLayoutMediator mediator;
   private AMapLocationClient mLocationClient;
   private AMapLocationClientOption mLocationOption;
-  private SimpleCardFragment simpleCardFragment;
-  private ArrayList<SimpleCardFragment> simpleCardFragments = new ArrayList<>();
 
-  private HashMap<String, String> firstLevelTitles = new HashMap<>();
+  private SimpleCardFragment simpleCardFragment;
+  private ArrayList<SimpleCardFragment> fragmentList = new ArrayList<>();
+
   // 底部弹窗
   private BottomSheetDialog dialog;
   private LayoutSearchBottomSheetBinding bottomSheetBinding;
@@ -68,18 +66,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   private final List<CityModel> allCities = new ArrayList<>();
   //设置热门城市列表
   final List<CityModel> hotCities = new ArrayList<>();
+  //
+  private final ArrayList<String> tabTitles = new ArrayList<>();
+  private final ArrayList<String> tabTitlesId = new ArrayList<>();
   // 分类id
   private String categoryId;
   // 城市id
   private String cityId;
+
   // 定位结果
   private String cityName;
-
-  private boolean isInit = false;
-
-  private int firstLevelSize = 0;
-
-  private FirstLevelCategoriesResponse currentFirstLevelCategoriesResponse;
 
   @Override
   protected int getLayoutResId() {
@@ -100,59 +96,40 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   protected void init() {
     // 设置搜索按钮大小
     setSearchIconBounds();
-    // 初始化高德定位并获取权限
-    //requestPermissionAndSetGaoDe();
-    // 请求接口数据
-    requestData();
-    // 观察viewModel数据
-    observeViewModelData();
-//    initTabLayout();
-  }
-
-  // 设置搜索框图标大小
-  private void setSearchIconBounds() {
-    @SuppressLint("UseCompatLoadingForDrawables")
-    Drawable drawable = getResources().getDrawable(R.drawable.icon_search);
-    // 设置图片的大小
-    drawable.setBounds(0, 0, 70, 70);
-    // 设置图片的位置，左、上、右、下
-    mDataBinding.searchText.setCompoundDrawables(drawable, null, null, null);
-  }
-
-  // 初始化高德定位并获取权限
-  private void requestPermissionAndSetGaoDe() {
-    // 初始化高德定位
-    initGaoDeLocation();
-    // 请求获取权限
-    if (!SharePreferenceUtil.getBoolean(Constants.IS_USER_ACCESS_FINE_LOCATION, false)) {
-      requestPermission();
-    }
-  }
-
-  // 请求接口数据
-  private void requestData() {
-    // 请求省市数据
-    mViewModel.requestAllCities();
-    // 请求一级菜单栏
-    mViewModel.requestFirstLevelArticleCategories();
-    //
-    mViewModel.getCityId(mDataBinding.location.getText().toString());
-  }
-
-
-  // 观察viewModel数据
-  private void observeViewModelData() {
+    // 获取默认城市的id
+    mViewModel.getCityIdByCityName(mDataBinding.location.getText().toString());
     mViewModel.cityByNameResponse.observe(this, new Observer<CityByNameResponse>() {
       @Override
       public void onChanged(CityByNameResponse cityByNameResponse) {
-        if (cityByNameResponse != null) {
-          cityId = String.valueOf(cityByNameResponse.getCityId().getId());
-          LogUtils.i("====111====categoryId and cityId========",categoryId + "  " + cityId);
-          if (cityId != null && categoryId != null && !isInit){
-            LogUtils.i("=======11=========","===================11=============");
-            initTabLayout();
+        cityId = String.valueOf(cityByNameResponse.getCityId().getId());
+        // 请求一级大类接口
+        mViewModel.requestFirstLevelArticleCategories();
+      }
+    });
+    mViewModel.firstLevelResponse.observe(this, new Observer<FirstLevelCategoriesResponse>() {
+      @Override
+      public void onChanged(FirstLevelCategoriesResponse firstLevelCategoriesResponse) {
+        if (tabTitles.size() > 0) {
+          tabTitles.clear();
+        }
+        if (tabTitlesId.size() > 0) {
+          tabTitlesId.clear();
+        }
+        int firstLevelSize = firstLevelCategoriesResponse.getFirstLevelCategoriesList().size();
+        if (firstLevelSize > 0) {
+          for (int i = 0; i < firstLevelSize; i++) {
+            tabTitles.add(i, firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getName());
+            tabTitlesId.add(i, String.valueOf(firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getId()));
+            simpleCardFragment = new SimpleCardFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("categoryId", tabTitlesId.get(i));
+            bundle.putString("cityId", cityId);
+            simpleCardFragment.setArguments(bundle);
+            fragmentList.add(simpleCardFragment);
           }
         }
+        // 初始化tabLayout
+        initTabLayout();
       }
     });
 
@@ -169,27 +146,69 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         }
       }
     });
+  }
 
-    mViewModel.firstLevelResponse.observe(this, new Observer<FirstLevelCategoriesResponse>() {
+  // 设置搜索框图标大小
+  private void setSearchIconBounds() {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    Drawable drawable = getResources().getDrawable(R.drawable.icon_search);
+    // 设置图片的大小
+    drawable.setBounds(0, 0, 70, 70);
+    // 设置图片的位置，左、上、右、下
+    mDataBinding.searchText.setCompoundDrawables(drawable, null, null, null);
+  }
+
+  private void initTabLayout() {
+    //禁用预加载
+    mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
+    //viewPager 页面切换监听
+    mDataBinding.viewPager.registerOnPageChangeCallback(changeCallback);
+    //Adapter
+    SimpleCardFragmentAdapter adapter = new SimpleCardFragmentAdapter(this, fragmentList);
+    mDataBinding.viewPager.setAdapter(adapter);
+    mediator = new TabLayoutMediator(mDataBinding.tabs, mDataBinding.viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
       @Override
-      public void onChanged(FirstLevelCategoriesResponse firstLevelCategoriesResponse) {
-        if (mTitles.size() > 0) {
-          mTitles.clear();
-        }
-        if (mTitlesKey.size() > 0) {
-          mTitlesKey.clear();
-        }
-        categoryId = String.valueOf(firstLevelCategoriesResponse.getFirstLevelCategoriesList().get(0).getId());
-        firstLevelSize = firstLevelCategoriesResponse.getFirstLevelCategoriesList().size();
-        currentFirstLevelCategoriesResponse = firstLevelCategoriesResponse;
-
-        LogUtils.i("===222=====categoryId and cityId========",categoryId + "  " + cityId);
-        if (cityId != null && categoryId != null && !isInit){
-          LogUtils.i("========22========","================22================");
-          initTabLayout();
-        }
+      public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+        //这里可以自定义TabView
+        tab.setText(tabTitles.get(position));
       }
     });
+    //要执行这一句才是真正将两者绑定起来
+    mediator.attach();
+  }
+
+  private final ViewPager2.OnPageChangeCallback changeCallback = new ViewPager2.OnPageChangeCallback() {
+    @Override
+    public void onPageSelected(int position) {
+      SimpleCardFragment currentFragment = (SimpleCardFragment) fragmentList.get(position);
+      //可以来设置选中时tab的大小
+      Bundle bundle = new Bundle();
+      bundle.putString("categoryId", tabTitlesId.get(position));
+      bundle.putString("cityId", cityId);
+      currentFragment.setArguments(bundle);
+    }
+  };
+
+
+
+  // 初始化高德定位并获取权限
+  private void requestPermissionAndSetGaoDe() {
+    // 初始化高德定位
+    initGaoDeLocation();
+    // 请求获取权限
+    if (!SharePreferenceUtil.getBoolean(Constants.IS_USER_FINE_LOCATION, false)) {
+      requestPermission();
+    }
+  }
+
+  // 请求接口数据
+  private void requestData() {
+    // 请求省市数据
+    mViewModel.requestAllCities();
+    // 请求一级菜单栏
+    mViewModel.requestFirstLevelArticleCategories();
+    //
+    mViewModel.getCityIdByCityName(mDataBinding.location.getText().toString());
   }
 
 
@@ -220,7 +239,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
-        mViewModel.getCityId(cityName);
+        mViewModel.getCityIdByCityName(cityName);
       }
 
       @Override
@@ -232,72 +251,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
   }
 
 
-  private void initTabLayout() {
 
-    if (firstLevelSize > 0) {
-      for (int i = 0; i < firstLevelSize; i++) {
-        mTitles.add(i, currentFirstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getName());
-        mTitlesKey.add(i, String.valueOf(currentFirstLevelCategoriesResponse.getFirstLevelCategoriesList().get(i).getId()));
-        simpleCardFragment = new SimpleCardFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("categoryId", categoryId);
-        bundle.putString("cityId", cityId);
-        LogUtils.i("===4444=====categoryId and cityId========",categoryId + "  " + cityId);
-        simpleCardFragment.setArguments(bundle);
-        simpleCardFragments.add(simpleCardFragment);
-      }
-    }
-
-
-
-    isInit = true;
-    //禁用预加载
-    mDataBinding.viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
-    //viewPager 页面切换监听
-    mDataBinding.viewPager.registerOnPageChangeCallback(changeCallback);
-    //Adapter
-    mDataBinding.viewPager.setAdapter(new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
-      @NonNull
-      @Override
-      public Fragment createFragment(int position) {
-        // 实例化Fragment的时候传入两个参数
-        Bundle bundle = new Bundle();
-        bundle.putString("categoryId", categoryId);
-        bundle.putString("cityId", cityId);
-        LogUtils.i("===3333=====categoryId and cityId========",categoryId + "  " + cityId);
-        simpleCardFragment.setArguments(bundle);
-        return simpleCardFragments.get(position);
-      }
-
-      @Override
-      public int getItemCount() {
-        return mTitles.size();
-      }
-    });
-    mediator = new TabLayoutMediator(mDataBinding.tabs, mDataBinding.viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
-      @Override
-      public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-        //这里可以自定义TabView
-        tab.setText(mTitles.get(position));
-      }
-    });
-    //要执行这一句才是真正将两者绑定起来
-    mediator.attach();
-  }
-
-
-  private final ViewPager2.OnPageChangeCallback changeCallback = new ViewPager2.OnPageChangeCallback() {
-    @Override
-    public void onPageSelected(int position) {
-
-      LogUtils.i("----------cateId  and cityId-----------", categoryId + " " + cityId);
-      //可以来设置选中时tab的大小
-      Bundle bundle = new Bundle();
-      bundle.putString("categoryId", categoryId);
-      bundle.putString("cityId", cityId);
-      simpleCardFragment.setArguments(bundle);
-    }
-  };
 
   /**
    * 请求定位权限
@@ -321,12 +275,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // 如果是被永久拒绝就跳转到应用权限系统设置页面
             //XXPermissions.startPermissionActivity(getActivity(), permissions);
           } else {
-            SharePreferenceUtil.setParam(Constants.IS_USER_ACCESS_FINE_LOCATION, true);
+            SharePreferenceUtil.setParam(Constants.IS_USER_FINE_LOCATION, true);
             ToastUtils.show("获取权限失败");
             if (cityName == null) {
               cityName = mDataBinding.location.getText().toString();
             }
-            mViewModel.getCityId(cityName);
+            mViewModel.getCityIdByCityName(cityName);
           }
         }
       });
@@ -366,7 +320,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
           LogUtils.i("解析定位结果", "=========");
           mDataBinding.location.setText(amapLocation.getCity());
           cityName = amapLocation.getCity();
-          mViewModel.getCityId(cityName);
+          mViewModel.getCityIdByCityName(cityName);
         } else {
           //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
           LogUtils.e("HomeFragment==> 高德定位", "location Error, ErrCode:"

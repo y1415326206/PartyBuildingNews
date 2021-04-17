@@ -3,8 +3,10 @@ package com.news.partybuilding.network;
 import com.news.partybuilding.BuildConfig;
 
 public final class Urls {
+  // 检查更新
+  public static final String CHECK_UPDATE = "check_update";
   // HTTP 服务器和前缀
-  static final String HTTP_SERVER_AND_URL_PREFIX = BuildConfig.BASE_URL;
+  public static final String HTTP_SERVER_AND_URL_PREFIX = BuildConfig.BASE_URL;
   // 首页
   public static final String HOME = "home";
   // 视频列表

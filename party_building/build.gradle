@@ -165,4 +165,6 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     // 省市区三级联动
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
+    // jsBridge
+    implementation 'com.github.lzyzsd:jsbridge:1.0.4'
 }

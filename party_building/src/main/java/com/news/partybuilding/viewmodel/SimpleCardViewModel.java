@@ -23,37 +23,6 @@ public class SimpleCardViewModel extends BaseViewModel {
 
   // 首页接口数据
   public MutableLiveData<HomeResponse> homeResponse = new MutableLiveData<>();
-  public MutableLiveData<HomeBannerResponse> bannerResponse = new MutableLiveData<>();
-
-
-  // 获取首页轮播图
-  public void getHomeBannerData() {
-    if (NetWorkUtils.isConnected()){
-      loadState.postValue(LoadState.LOADING);
-      new Http(Urls.HOME).get(new Http.ResponseCallBack() {
-        @Override
-        public void onResponse(String response) {
-          LogUtils.i("SimpleCardViewModel", response);
-          if (!response.isEmpty()){
-            final HomeBannerResponse homeBannerResponse = new Gson().fromJson(response, HomeBannerResponse.class);
-            loadState.postValue(LoadState.SUCCESS);
-            bannerResponse.postValue(homeBannerResponse);
-          }else {
-            loadState.postValue(LoadState.NO_DATA);
-          }
-        }
-
-        @Override
-        public void OnFailure(String exception) {
-          loadState.postValue(LoadState.ERROR);
-        }
-      });
-
-    }else {
-      loadState.postValue(LoadState.NO_NETWORK);
-    }
-
-  }
 
   public void requestHomeData(String categoryId, String cityId){
     if (NetWorkUtils.isConnected()) {

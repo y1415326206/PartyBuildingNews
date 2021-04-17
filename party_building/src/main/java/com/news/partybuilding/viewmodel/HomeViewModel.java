@@ -95,7 +95,7 @@ public class HomeViewModel extends BaseViewModel {
   /**
    * 根据城市名返回城市id
    */
-  public void getCityId(String cityName) {
+  public void getCityIdByCityName(String cityName) {
     if (NetWorkUtils.isConnected()) {
       loadState.postValue(LoadState.LOADING);
       new Http(Urls.CITY_BY_NAME, new HashMap<String, String>() {{
