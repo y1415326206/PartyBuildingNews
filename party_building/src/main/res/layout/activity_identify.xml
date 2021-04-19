@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <variable
+      name="data"
+      type="com.news.partybuilding.viewmodel.IdentifyViewModel" />
+    <import type="android.view.View"/>
+  </data>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    tools:context=".ui.activity.identify.IdentifyActivity">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:orientation="horizontal"
+      app:layout_constraintTop_toTopOf="parent">
+
+      <ImageView
+        android:id="@+id/go_back"
+        android:layout_width="50dp"
+        android:padding="15dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_go_back" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="选择实名认证方式"
+        android:textColor="@color/colorTextColor"
+        android:gravity="center"
+        android:layout_marginEnd="50dp"
+        android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="10dp"
+      android:background="@color/colorViewGray"/>
+
+
+    <LinearLayout
+      android:id="@+id/if_not_audit"
+      android:visibility="@{data.isIdentifySuccess? View.GONE : View.VISIBLE, default = `visible`}"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:id="@+id/identify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+          android:layout_width="45dp"
+          android:layout_height="45dp"
+          android:layout_gravity="center"
+          android:layout_marginStart="16dp"
+          android:src="@drawable/icon_identify"/>
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:layout_marginStart="22dp"
+          android:layout_weight="1">
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="15sp"
+            android:textColor="@color/colorTextColor"
+            android:layout_weight="1"
+            android:text="身份证认证"/>
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:textSize="12sp"
+            android:textColor="@color/colorTextHintGray"
+            android:text="本过程需你本人完成"/>
+
+        </LinearLayout>
+
+        <ImageView
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:padding="16dp"
+          android:layout_gravity="center"
+          android:src="@drawable/icon_go_right"
+          android:layout_marginStart="16dp"/>
+
+
+      </LinearLayout>
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/colorViewGray"/>
+
+
+      <LinearLayout
+        android:id="@+id/ali_pay_identify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+          android:layout_width="45dp"
+          android:layout_height="45dp"
+          android:layout_marginStart="16dp"
+          android:layout_gravity="center"
+          android:src="@drawable/icon_ali_pay"/>
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:layout_marginStart="22dp"
+          android:layout_weight="1">
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="15sp"
+            android:textColor="@color/colorTextColor"
+            android:layout_weight="1"
+            android:text="支付宝认证"/>
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:textSize="12sp"
+            android:textColor="@color/colorTextHintGray"
+            android:text="若本人支付宝已实名，只需授权即可认证"/>
+
+        </LinearLayout>
+
+        <ImageView
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          android:padding="16dp"
+          android:layout_gravity="center"
+          android:src="@drawable/icon_go_right"
+          android:layout_marginStart="16dp"/>
+
+
+      </LinearLayout>
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/colorViewGray"/>
+
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextHintGray"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="18dp"
+        android:text="*为保证学习组织安全，完成实名认证后才能创建学习组织。实名认证信息存储于党建头条并归属党建头条所有。党建头条安全技术已通过国家安全机构认证，请放心使用。"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/if_already_audit"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="@{data.isIdentifySuccess ? View.VISIBLE : View.GONE, default = `gone`}"
+      android:orientation="vertical">
+
+
+      <ImageView
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/icon_identify_success"
+        android:layout_gravity="center"/>
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextColor"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="个人实名认证成功"/>
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextHintGray"
+        android:textSize="12sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="您提交的认证资料已通过审核"/>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/colorTextColor"
+          android:textSize="15sp"
+          android:text="姓名"/>
+
+        <TextView
+          android:id="@+id/name"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          tools:text="王大锤"
+          android:text="@{data.userCenter.idCardRealName}"
+          android:gravity="end"
+          android:textColor="@color/colorTextColor"
+          android:textSize="15sp"
+          android:layout_height="wrap_content"/>
+      </LinearLayout>
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorViewGray"/>
+
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/colorTextColor"
+          android:textSize="15sp"
+          android:text="身份证"/>
+
+        <TextView
+          android:id="@+id/id_card_number"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          tools:text="72634***********90"
+          android:gravity="end"
+          android:text="@{data.userCenter.idCardNumber}"
+          android:textColor="@color/colorTextColor"
+          android:textSize="15sp"
+          android:layout_height="wrap_content"/>
+      </LinearLayout>
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorViewGray"/>
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextHintGray"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="18dp"
+        android:text="*为保证学习组织安全，完成实名认证后才能创建学习组织。实名认证信息存储于党建头条并归属党建头条所有。党建头条安全技术已通过国家安全机构认证，请放心使用。"/>
+
+
+    </LinearLayout>
+
+
+
+  </LinearLayout>
+</layout>

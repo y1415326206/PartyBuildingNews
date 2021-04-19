@@ -1,6 +1,7 @@
 package com.news.partybuilding.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -33,6 +34,7 @@ import com.news.partybuilding.viewmodel.SimpleCardViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -65,6 +67,10 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
     // 初始化recycleView复杂布局
     initMultiTypeRecycle();
     observeData();
+    categoryId = getArguments().getString("categoryId");
+    cityId = getArguments().getString("cityId");
+    // 请求首页数据
+    mViewModel.requestHomeData(categoryId, cityId);
   }
 
 
@@ -73,8 +79,7 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
     super.onResume();
     categoryId = getArguments().getString("categoryId");
     cityId = getArguments().getString("cityId");
-    // 请求首页数据
-    mViewModel.requestHomeData(categoryId, cityId);
+
   }
 
   /**
@@ -163,9 +168,8 @@ public class SimpleCardFragment extends BaseFragment<FragmentSimpleCardBinding, 
                 LogUtils.i("=======================", checkedId + "==================");
                 items.add(homeResponse.getHomeData().getSecondChildrenList().get(i));
                 // 往thirdChildrenViewProvider中赋值默认选中的Id
-//                defaultCheckedId.add(checkedId);
-//                thirdChildrenViewProvider.setCheckedId(defaultCheckedId);
-                thirdChildrenViewProvider.setCheckId(checkedId);
+                defaultCheckedId.add(checkedId);
+                thirdChildrenViewProvider.setCheckedId(defaultCheckedId);
                 items.addAll(homeResponse.getHomeData().getSecondChildrenList().get(i).getChildrens());
 
                 // 遍历ThirdChildren的数据 如果等于 checkedId 就初始化一个 查看更多的类 EmptyValue

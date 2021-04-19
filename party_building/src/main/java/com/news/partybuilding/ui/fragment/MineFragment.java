@@ -11,6 +11,7 @@ import com.news.partybuilding.base.BaseFragment;
 import com.news.partybuilding.config.Constants;
 import com.news.partybuilding.databinding.FragmentMineBinding;
 import com.news.partybuilding.ui.activity.aboutapp.AboutAppActivity;
+import com.news.partybuilding.ui.activity.identify.IdentifyActivity;
 import com.news.partybuilding.ui.activity.login.LoginActivity;
 import com.news.partybuilding.ui.activity.mydownloads.MyDownloadsActivity;
 import com.news.partybuilding.ui.activity.myfavourites.MyFavouritesActivity;
@@ -59,6 +60,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     mDataBinding.myMessage.setOnClickListener(this);
     mDataBinding.myDownloads.setOnClickListener(this);
     mDataBinding.settings.setOnClickListener(this);
+    mDataBinding.identify.setOnClickListener(this);
   }
 
 
@@ -94,6 +96,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         break;
       case R.id.settings:
         startActivityIfLogin(SettingsActivity.class);
+        break;
+      case R.id.identify:
+        startActivityIfLogin(IdentifyActivity.class);
         break;
     }
   }

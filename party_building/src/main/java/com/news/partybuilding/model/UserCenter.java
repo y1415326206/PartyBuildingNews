@@ -18,7 +18,7 @@ public class UserCenter {
   @SerializedName("county_id")
   private String countyId;
   @SerializedName("party_organization_id")
-  private Integer partyOrganizationId;
+  private String partyOrganizationId;
   @SerializedName("province_name")
   private String provinceName;
   @SerializedName("city_name")
@@ -96,11 +96,11 @@ public class UserCenter {
     this.countyId = countyId;
   }
 
-  public Integer getPartyOrganizationId() {
+  public String getPartyOrganizationId() {
     return partyOrganizationId;
   }
 
-  public void setPartyOrganizationId(Integer partyOrganizationId) {
+  public void setPartyOrganizationId(String partyOrganizationId) {
     this.partyOrganizationId = partyOrganizationId;
   }
 

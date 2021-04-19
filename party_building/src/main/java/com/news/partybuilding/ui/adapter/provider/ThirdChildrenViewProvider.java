@@ -11,11 +11,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drakeet.multitype.ItemViewBinder;
+import com.hjq.toast.ToastUtils;
 import com.news.partybuilding.R;
 import com.news.partybuilding.databinding.ItemProviderNewsSecondChildrenCategoriesBinding;
 import com.news.partybuilding.databinding.ItemProviderNewsThirdChildrenCategoriesBinding;
 import com.news.partybuilding.model.SecondChildren;
 import com.news.partybuilding.model.ThirdChildren;
+import com.news.partybuilding.ui.fragment.SimpleCardFragment;
 import com.news.partybuilding.utils.LogUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,8 +34,6 @@ public class ThirdChildrenViewProvider extends ItemViewBinder<ThirdChildren, Thi
     this.context = context;
   }
 
-  private int checkId;
-
   private ArrayList<Integer> checkedId = new ArrayList<>();
 
   public ArrayList<Integer> getCheckedId() {
@@ -44,13 +44,7 @@ public class ThirdChildrenViewProvider extends ItemViewBinder<ThirdChildren, Thi
     this.checkedId = checkedId;
   }
 
-  public int getCheckId() {
-    return checkId;
-  }
 
-  public void setCheckId(int checkId) {
-    this.checkId = checkId;
-  }
 
   @NotNull
   @Override
@@ -71,8 +65,8 @@ public class ThirdChildrenViewProvider extends ItemViewBinder<ThirdChildren, Thi
 
       }
     });
-    binding.setCheckId(checkId);
-
+    binding.setCheckId(checkedId);
+   LogUtils.i("======================",checkedId.toString());
   }
 
 

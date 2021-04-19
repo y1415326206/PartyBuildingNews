@@ -133,6 +133,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
       }
     });
 
+    // 请求省市数据
+    mViewModel.requestAllCities();
     mViewModel.provincesCitiesResponse.observe(this, new Observer<CitiesResponse>() {
       @Override
       public void onChanged(CitiesResponse citiesResponse) {
@@ -199,16 +201,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     if (!SharePreferenceUtil.getBoolean(Constants.IS_USER_FINE_LOCATION, false)) {
       requestPermission();
     }
-  }
-
-  // 请求接口数据
-  private void requestData() {
-    // 请求省市数据
-    mViewModel.requestAllCities();
-    // 请求一级菜单栏
-    mViewModel.requestFirstLevelArticleCategories();
-    //
-    mViewModel.getCityIdByCityName(mDataBinding.location.getText().toString());
   }
 
 

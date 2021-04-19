@@ -1,10 +1,14 @@
 package com.news.partybuilding.config;
 
+import com.news.partybuilding.R;
+import com.news.partybuilding.base.BaseApplication;
+
 /**
  * desc : 全局常量
  */
 public final class Constants {
 
+    public static final String APP_NAME = BaseApplication.getContext().getResources().getString(R.string.app_name_english).toLowerCase();
     public static final String BASE_URL = "https://www.wanandroid.com/";
     public static final String DEFAULT_STRING = "nothing";
     public static final String DEFAULT_LANGUAGE = "zh";
@@ -34,4 +38,11 @@ public final class Constants {
     public static final String MOBILE = "mobile";
     // 性别标识
     public static final String MAN = "man";
+
+    // 身份证扫描 和 人脸识别 api_key api_secret
+    public static final String  API_KEY = "FapKF0hrk84iFr_EwAlYvFD_Cyf5sv6v";
+    public static final String  API_SECRET = "5mkpAqAhFB2SS3jiw9-0GGmX-bjFB7ze";
+    // 人脸识别的 置信度 阀值
+    public static final Float CONTRAST_VALUE = 75f;
+    public static final Float THRESHOLDS_1E_5 = 65f;
 }

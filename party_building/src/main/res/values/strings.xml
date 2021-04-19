@@ -1,6 +1,7 @@
 <resources>
   <string name="exit_the_program">再次点击退出程序</string>
   <string name="app_name">党建头条</string>
+  <string name="app_name_english">djtt</string>
   <string name="load_error">加载失败</string>
   <string name="no_network">暂无网络,点击重试</string>
   <string name="splash_party_building">党建头条</string>

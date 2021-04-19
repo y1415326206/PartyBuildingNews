@@ -71,9 +71,21 @@ android {
         // for view binding:
         // viewBinding true
     }
+
+    repositories {
+        flatDir {
+            // 包含face id sdk
+            dirs 'libs'
+        }
+    }
+// face id kyc 验证需要使用
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
+    //face id 包
+    implementation(name: 'meglive_still', ext: 'aar')
+    implementation(name: 'idcard_ocr', ext: 'aar')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -82,11 +94,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     // 下面各SDK根据宿主App是否使用相关业务按需引入。
+    // repositories选项设置第三方库的来源，默认是maven
     // 友盟统计SDK
-    implementation fileTree(include:['*.jar'], dir:'libs')
-    implementation  'com.umeng.umsdk:common:9.3.8'// 必选
-    implementation  'com.umeng.umsdk:asms:1.2.2'// 必选
-    implementation  'com.umeng.umsdk:abtest:1.0.0'//可选（使用U-App中ABTest能力）
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.umeng.umsdk:common:9.3.8'// 必选
+    implementation 'com.umeng.umsdk:asms:1.2.2'// 必选
+    implementation 'com.umeng.umsdk:abtest:1.0.0'//可选（使用U-App中ABTest能力）
 
     // navigation
     implementation 'androidx.navigation:navigation-fragment:2.3.2'

@@ -9,6 +9,15 @@ public class EmptyValue {
 
   public int type;
   private String titleMore;
+  private String linkUrl;
+
+  public String getLinkUrl() {
+    return linkUrl;
+  }
+
+  public void setLinkUrl(String linkUrl) {
+    this.linkUrl = linkUrl;
+  }
 
   public EmptyValue(int type, String title) {
     this.type = type;
